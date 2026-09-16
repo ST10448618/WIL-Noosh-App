@@ -8,23 +8,23 @@
     "net10.0": []
   },
   "packageFolders": {
-    "C:\\Users\\perez\\.nuget\\packages\\": {},
+    "C:\\Users\\tayte\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Web\\NooshApp.Web.csproj",
+      "projectUniqueName": "C:\\Users\\tayte\\Desktop\\Taytem Pillay - Assignment BackUps\\Semester 6\\INSY7315\\Task 2\\WIL-Noosh-App\\NooshApp.Web\\NooshApp.Web.csproj",
       "projectName": "NooshApp.Web",
-      "projectPath": "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Web\\NooshApp.Web.csproj",
-      "packagesPath": "C:\\Users\\perez\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Web\\obj\\",
+      "projectPath": "C:\\Users\\tayte\\Desktop\\Taytem Pillay - Assignment BackUps\\Semester 6\\INSY7315\\Task 2\\WIL-Noosh-App\\NooshApp.Web\\NooshApp.Web.csproj",
+      "packagesPath": "C:\\Users\\tayte\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tayte\\Desktop\\Taytem Pillay - Assignment BackUps\\Semester 6\\INSY7315\\Task 2\\WIL-Noosh-App\\NooshApp.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\perez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tayte\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
