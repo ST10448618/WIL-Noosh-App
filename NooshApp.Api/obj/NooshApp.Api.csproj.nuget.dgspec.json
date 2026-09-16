@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj": {}
+    "C:\\Users\\Reece Moodley\\Documents\\GitHub\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj": {
+    "C:\\Users\\Reece Moodley\\Documents\\GitHub\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj",
+        "projectUniqueName": "C:\\Users\\Reece Moodley\\Documents\\GitHub\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj",
         "projectName": "NooshApp.Api",
-        "projectPath": "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj",
-        "packagesPath": "C:\\Users\\perez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\perez\\Documents\\github\\WIL-Noosh-App\\NooshApp.Api\\obj\\",
+        "projectPath": "C:\\Users\\Reece Moodley\\Documents\\GitHub\\WIL-Noosh-App\\NooshApp.Api\\NooshApp.Api.csproj",
+        "packagesPath": "C:\\Users\\Reece Moodley\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Reece Moodley\\Documents\\GitHub\\WIL-Noosh-App\\NooshApp.Api\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\perez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Reece Moodley\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,7 +30,6 @@
         },
         "frameworks": {
           "net10.0": {
-            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -45,11 +44,10 @@
           "auditLevel": "low",
           "auditMode": "all"
         },
-        "SdkAnalysisLevel": "10.0.400"
+        "SdkAnalysisLevel": "10.0.100"
       },
       "frameworks": {
         "net10.0": {
-          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "Microsoft.AspNetCore.OpenApi": {
@@ -76,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.103/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
