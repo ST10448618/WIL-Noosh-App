@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("NooshApp.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cadd2d161265560107de093151c8937226a6ae75")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b26d52f080ca3e73023272f418d356f3ed439b1")]
 [assembly: System.Reflection.AssemblyProductAttribute("NooshApp.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("NooshApp.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
