@@ -48,5 +48,29 @@
             <a asp-controller="Staff" asp-action="Logout" class="d-block text-center mt-3" style="color:#888;font-size:0.8rem;">Log out</a>
         </div>
     </div>
+ @Html.AntiForgeryToken()
+    <script>
+        const antiForgeryToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
+        document.getElementById('confirmRedeemBtn').addEventListener('click', async () => {
+            const email = document.getElementById('customerEmail').value.trim();
+            const rewardRuleId = document.getElementById('rewardSelect').value;
+            const statusBox = document.getElementById('statusBox');
+
+            const res = await fetch('/Staff/SubmitRedeem', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': antiForgeryToken },
+                body: `email=${encodeURIComponent(email)}&rewardRuleId=${rewardRuleId}`
+            });
+            const data = await res.json();
+            const cls = data.success ? 'staff-status success' : 'staff-status error';
+
+            statusBox.innerHTML = `<div class="${cls}">
+                ${data.message}
+                ${data.success ? `<span class="balance-line">New balance: ${data.balance} pts</span>` : ''}
+            </div>`;
+        });
+    </script>
+</body>
+</html>
     
