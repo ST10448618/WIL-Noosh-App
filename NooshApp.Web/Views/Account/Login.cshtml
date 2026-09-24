@@ -66,3 +66,78 @@
     firebase.initializeApp(firebaseConfig);
 
     const errorBox = document.getElementById('loginError');
+ // ---- Tab switching ----
+    document.querySelectorAll('#authTabs .tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#authTabs .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('loginTab').classList.toggle('d-none', btn.dataset.tab !== 'login');
+            document.getElementById('registerTab').classList.toggle('d-none', btn.dataset.tab !== 'register');
+            errorBox.textContent = '';
+        });
+    });
+
+    async function completeServerLogin(user) {
+        const idToken = await user.getIdToken();
+        const response = await fetch('/Account/CompleteLogin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `email=${encodeURIComponent(user.email)}&idToken=${encodeURIComponent(idToken)}&fullName=${encodeURIComponent(user.displayName || '')}`
+        });
+        window.location.href = response.ok ? '/Rewards' : '/Account/Login';
+    }
+
+    // ---- Log in ----
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+        errorBox.textContent = '';
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        try {
+            const result = await firebase.auth().signInWithEmailAndPassword(email, password);
+            await completeServerLogin(result.user);
+        } catch (err) {
+            errorBox.textContent = friendlyError(err);
+        }
+    });
+
+    // ---- Register ----
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+        errorBox.textContent = '';
+        const name = document.getElementById('registerName').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+
+        try {
+            const result = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            if (name) {
+                await result.user.updateProfile({ displayName: name });
+            }
+            await completeServerLogin(result.user);
+        } catch (err) {
+            errorBox.textContent = friendlyError(err);
+        }
+    });
+
+    function friendlyError(err) {
+        switch (err.code) {
+            case 'auth/email-already-in-use': return 'An account with this email already exists — try logging in instead.';
+            case 'auth/weak-password': return 'Password must be at least 6 characters.';
+            case 'auth/invalid-email': return 'Please enter a valid email address.';
+            case 'auth/wrong-password':
+            case 'auth/invalid-credential': return 'Incorrect email or password.';
+            case 'auth/user-not-found': return 'No account found with this email — try creating one instead.';
+            default: return err.message;
+        }
+    }
+
+    // ---- "Stay logged in": if Firebase already has a session in this
+    // browser (e.g. they closed the tab and came back), silently complete
+    // server login again rather than making them re-enter credentials. ----
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+            await completeServerLogin(user);
+        }
+    });
+</script>
+}
