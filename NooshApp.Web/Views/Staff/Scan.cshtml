@@ -22,3 +22,23 @@
         .amount-input-wrap input { font-size: 1.3rem; text-align: center; font-weight: 700; }
     </style>
 </head>
+<body>
+    <div class="scan-wrap">
+        <div class="staff-topbar">
+            <strong>Noosh Staff</strong>
+            <a asp-controller="Staff" asp-action="Redeem" class="internal-link">Redeem Reward</a>
+        </div>
+
+        <div class="auth-card">
+            <p class="section-eyebrow text-center">Enter Sale Amount First</p>
+            <div class="amount-input-wrap">
+                <input type="number" id="amountPaid" class="form-control auth-input" placeholder="R 0.00" step="0.01" />
+            </div>
+        </div>
+
+        <div id="reader" class="mt-3"></div>
+        
+        <div id="statusBox" class="mt-3"></div>
+
+        <a asp-controller="Staff" asp-action="Logout" class="d-block text-center mt-3" style="color:#888;font-size:0.8rem;">Log out</a>
+    </div>
