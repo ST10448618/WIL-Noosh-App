@@ -42,3 +42,55 @@
 
         <a asp-controller="Staff" asp-action="Logout" class="d-block text-center mt-3" style="color:#888;font-size:0.8rem;">Log out</a>
     </div>
+@Html.AntiForgeryToken()
+    <script>
+        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+        const statusBox = document.getElementById('statusBox');
+        let isProcessing = false;
+
+        function showStatus(result) {
+            const cls = result.success ? 'staff-status success' : 'staff-status error';
+            statusBox.innerHTML = `<div class="${cls}">
+                ${result.message}
+                ${result.success ? `<span class="balance-line">New balance: ${result.balance} pts</span>` : ''}
+            </div>`;
+        }
+
+        async function submitScan(qrToken) {
+            const amountPaid = parseFloat(document.getElementById('amountPaid').value);
+            if (!amountPaid || amountPaid <= 0) {
+                statusBox.innerHTML = '<div class="status error" style="padding:1rem;background:#F4CCCC;color:#a30000;border-radius:8px;text-align:center;font-weight:bold;">Enter the sale amount first.</div>';
+                return;
+            }
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const res = await fetch('/Staff/SubmitScan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'RequestVerificationToken': token },
+                body: `token=${encodeURIComponent(qrToken)}&amountPaid=${amountPaid}`
+            });
+            const data = await res.json();
+            showStatus(data);
+
+            document.getElementById('amountPaid').value = '';
+            setTimeout(() => { isProcessing = false; }, 2000);
+        }
+
+        const scanner = new Html5Qrcode("reader");
+        scanner.start(
+            { facingMode: "environment" },
+            { fps: 10, qrbox: 250 },
+            (decodedText) => submitScan(decodedText),
+            () => {}
+        ).catch(err => {
+            statusBox.innerHTML = `<div style="color:white;text-align:center;">Camera unavailable — use manual entry below.</div>`;
+        });
+
+        document.getElementById('manualScanBtn').addEventListener('click', () => {
+            const val = document.getElementById('manualToken').value.trim();
+            if (val) submitScan(val);
+        });
+    </script>
+</body>
+</html>
