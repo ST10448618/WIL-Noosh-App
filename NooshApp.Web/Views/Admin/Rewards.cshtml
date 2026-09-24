@@ -54,3 +54,48 @@
                 </div>
             </form>
         </div>
+        <table class="admin-table">
+            <thead>
+                <tr><th>Name</th><th>Points</th><th>Description</th><th>Status</th><th>Order</th><th></th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var rule in rules)
+                {
+                    <tr>
+                        <form asp-controller="Admin" asp-action="UpdateRule" method="post" class="admin-row-form">
+                            <input type="hidden" name="id" value="@rule.Id" />
+                            <td><input type="text" name="name" value="@rule.Name" /></td>
+                            <td><input type="number" name="pointsRequired" value="@rule.PointsRequired" style="width:80px;" /></td>
+                            <td><input type="text" name="description" value="@rule.RewardDescription" /></td>
+                            <td>
+                                <select name="isActive">
+                                    <option value="true" selected="@(rule.IsActive ? "selected" : null)">Active</option>
+                                    <option value="false" selected="@(!rule.IsActive ? "selected" : null)">Inactive</option>
+                                </select>
+                            </td>
+                            <td><input type="number" name="displayOrder" value="@rule.DisplayOrder" style="width:60px;" /></td>
+                            <td><button type="submit" class="admin-save-btn">Save</button></td>
+                            <td>
+                            <button type="button" class="admin-delete-btn" onclick="confirmDelete(@rule.Id)"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </form>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <form id="deleteForm" asp-controller="Admin" asp-action="DeleteRule" method="post" class="d-none">
+    <input type="hidden" name="id" id="deleteRuleId" />
+</form>
+
+<script>
+    function confirmDelete(id) {
+        if (confirm('Delete this reward? This cannot be undone, but redemption history is preserved.')) {
+            document.getElementById('deleteRuleId').value = id;
+            document.getElementById('deleteForm').submit();
+        }
+    }
+</script>
+</body>
+</html>
