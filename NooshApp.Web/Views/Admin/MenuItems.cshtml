@@ -51,3 +51,53 @@
                 <div class="col-12 mt-2"><button type="submit" class="btn btn-hero-primary">Add Item</button></div>
             </form>
         </div>
+ <table class="admin-table">
+            <thead>
+                <tr><th>Image</th><th>Name</th><th>Price</th><th>Category</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in items)
+                {
+                    <tr>
+                        <td>
+                            <img src="@(item.ImageUrl ?? "/images/placeholder-food.jpg")" alt="@item.Name" style="width:48px;height:48px;object-fit:cover;border-radius:6px;" onerror="this.src='/images/placeholder-food.jpg'" />
+                            <form asp-controller="Admin" asp-action="UploadMenuItemImage" method="post" enctype="multipart/form-data" class="mt-1">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="file" name="image" accept=".jpg,.jpeg,.png" style="font-size:0.7rem;width:100px;" />
+                                <button type="submit" class="admin-save-btn" style="font-size:0.7rem;padding:0.2rem 0.5rem;">Upload</button>
+                            </form>
+                        </td>
+                        <form asp-controller="Admin" asp-action="UpdateMenuItem" method="post" class="admin-row-form">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <td><input type="text" name="name" value="@item.Name" /></td>
+                            <td><input type="number" step="0.01" name="price" value="@item.Price" style="width:80px;" /></td>
+                            <td><input type="text" name="category" value="@item.Category" /></td>
+                            <td>
+                                <select name="isAvailable">
+                                    <option value="true" selected="@(item.IsAvailable ? "selected" : null)">Available</option>
+                                    <option value="false" selected="@(!item.IsAvailable ? "selected" : null)">Unavailable</option>
+                                </select>
+                                <input type="hidden" name="description" value="@item.Description" />
+                                <input type="hidden" name="isPopular" value="@item.IsPopular.ToString().ToLower()" />
+                                <input type="hidden" name="isVegetarian" value="@item.IsVegetarian.ToString().ToLower()" />
+                                <input type="hidden" name="spiceLevel" value="@item.SpiceLevel" />
+                                <input type="hidden" name="containsEggs" value="@item.ContainsEggs.ToString().ToLower()" />
+                                <input type="hidden" name="containsWheat" value="@item.ContainsWheat.ToString().ToLower()" />
+                                <input type="hidden" name="containsDairy" value="@item.ContainsDairy.ToString().ToLower()" />
+                                <input type="hidden" name="containsSesame" value="@item.ContainsSesame.ToString().ToLower()" />
+                            </td>
+                            <td><button type="submit" class="admin-save-btn">Save</button></td>
+                        </form>
+                        <td>
+                            <form asp-controller="Admin" asp-action="DeleteMenuItem" method="post" onsubmit="return confirm('Delete this menu item?');">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="admin-delete-btn"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
