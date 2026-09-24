@@ -31,4 +31,38 @@
                 </button>
             </div>
 
-            
+            <!-- REGISTER -->
+            <div id="registerTab" class="d-none">
+                <h1 class="auth-title">Join Noosh Rewards</h1>
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="registerName" class="form-control auth-input" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="registerEmail" class="form-control auth-input" placeholder="you@example.com" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="registerPassword" class="form-control auth-input" placeholder="At least 6 characters" />
+                </div>
+                <button type="button" id="registerBtn" class="btn btn-hero-primary w-100">
+                    <i class="fa-solid fa-user-plus me-2"></i>Create Account
+                </button>
+            </div>
+
+            <div id="loginError" class="text-danger mt-3"></div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+    const firebaseConfig = {
+        apiKey: "@ViewBag.FirebaseApiKey",
+        authDomain: "@ViewBag.FirebaseAuthDomain",
+        projectId: "@ViewBag.FirebaseProjectId"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const errorBox = document.getElementById('loginError');
