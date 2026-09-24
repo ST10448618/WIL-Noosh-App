@@ -21,3 +21,7 @@
             <a asp-controller="Admin" asp-action="Logout" class="internal-link">Log out</a>
         </div>
     </div>
+     @if (TempData["UploadError"] != null)
+    {
+        <div class="staff-status error mb-3">@TempData["UploadError"]</div>
+    }
