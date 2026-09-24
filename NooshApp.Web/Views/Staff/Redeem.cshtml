@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Redeem Reward";
+    Layout = null;
+    var rewards = (List<NooshApp.Web.Dtos.RewardRuleDto>)ViewBag.Rewards;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Redeem Reward</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body class="internal-page-body">
+    <div class="internal-topbar">
+        <span class="brand">NOOSH<span> Staff</span></span>
+        <a asp-controller="Staff" asp-action="Scan" class="internal-link">Back to Scanner</a>
+    </div>
+
+    <div class="internal-content">
+        <div class="auth-card">
+            <p class="section-eyebrow text-center">Staff</p>
+            <h1 class="auth-title">Redeem a Reward</h1>
+
+            <div class="mb-3">
+                <label class="form-label">Customer Email</label>
+                <input type="email" id="customerEmail" class="form-control auth-input" placeholder="customer@example.com" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Reward</label>
+                <select id="rewardSelect" class="form-select auth-input">
+                    @foreach (var reward in rewards)
+                    {
+                        <option value="@reward.Id">@reward.RewardDescription (@reward.PointsRequired pts)</option>
+                    }
+                </select>
+            </div>
+
+            <button type="button" id="confirmRedeemBtn" class="btn btn-hero-primary w-100">
+                <i class="fa-solid fa-gift me-2"></i>Confirm Redemption
+            </button>
+
+            <div id="statusBox" class="mt-3"></div>
+
+            <a asp-controller="Staff" asp-action="Logout" class="d-block text-center mt-3" style="color:#888;font-size:0.8rem;">Log out</a>
+        </div>
+    </div>
+
+    
