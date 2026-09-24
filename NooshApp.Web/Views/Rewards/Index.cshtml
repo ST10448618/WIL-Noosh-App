@@ -39,5 +39,48 @@
                     </div>
                 </div>
             </div>
+ <div class="col-lg-5">
+                <div class="rewards-history-card">
+                    <h4 class="builder-section-title">Points History</h4>
+                    @if (!Model.History.Any())
+                    {
+                        <p class="rewards-empty">No activity yet — start earning points on your next visit!</p>
+                    }
+                    else
+                    {
+                        <ul class="history-list">
+                            @foreach (var entry in Model.History)
+                            {
+                                <li class="history-item">
+                                    <div>
+                                        <p class="history-description">@entry.Description</p>
+                                        <p class="history-date">@entry.CreatedAt.ToLocalTime().ToString("dd MMM yyyy, HH:mm")</p>
+                                    </div>
+                                    <span class="history-points">@(entry.Amount >= 0 ? "+" : "")@entry.Amount</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+@section Scripts {
+<script>
+    document.getElementById('showQrBtn').addEventListener('click', async () => {
+        const res = await fetch('/Rewards/GenerateQr', { method: 'POST' });
+        if (!res.ok) {
+            document.getElementById('qrResult').innerHTML = '<p class="text-danger">Could not generate QR code.</p>';
+            return;
+        }
+        const data = await res.json();
+        document.getElementById('qrResult').innerHTML = `
+            <img src="${data.qrImageDataUrl}" alt="QR Code" style="max-width:220px;border:2px solid #111;border-radius:8px;" />
+            <p style="font-size:0.8rem;color:#666;margin-top:0.5rem;">Show this to staff — expires in 2 minutes</p>
+        `;
+    });
+</script>
+}
             
