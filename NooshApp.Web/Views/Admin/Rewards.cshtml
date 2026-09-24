@@ -22,3 +22,35 @@
             <a asp-controller="Admin" asp-action="Logout" class="internal-link">Log out</a>
         </div>
     </div>
+<div class="internal-content wide">
+        <div class="admin-settings-card">
+            <h4>Points-Per-Rand Rate</h4>
+            <form asp-controller="Admin" asp-action="UpdateSettings" method="post" class="d-flex gap-2 align-items-end">
+                <div style="flex:1;">
+                    <label class="form-label">Points earned per R1 spent (e.g. 0.1 = R150 &rarr; 15 pts)</label>
+                    <input type="number" step="0.01" name="pointsPerRand" value="@settings.PointsPerRand" class="form-control auth-input" />
+                </div>
+                <button type="submit" class="btn btn-hero-primary">Save</button>
+            </form>
+        </div>
+
+        <div class="admin-add-card">
+            <h4>Add New Reward</h4>
+            <form asp-controller="Admin" asp-action="CreateRule" method="post" class="row g-2">
+                <div class="col-md-4">
+                    <label class="form-label">Internal Name</label>
+                    <input type="text" name="name" class="form-control auth-input" placeholder="Internal name" required />
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Points Required</label>
+                    <input type="number" name="pointsRequired" class="form-control auth-input" placeholder="Points required" required />
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Description</label>
+                    <input type="text" name="description" class="form-control auth-input" placeholder="Customer-facing description" required />
+                </div>
+                <div class="col-md-1 d-flex align-items-end">
+                    <button type="submit" class="btn btn-hero-primary w-100"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </form>
+        </div>
