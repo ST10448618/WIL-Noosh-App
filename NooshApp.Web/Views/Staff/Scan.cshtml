@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Staff Scanner";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Scanner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+    <style>
+        body { background: var(--color-ink); }
+        .scan-wrap { max-width: 480px; margin: 2rem auto; padding: 0 1rem; }
+        #reader { border: 3px solid var(--color-primary); border-radius: var(--radius-md); overflow: hidden; }
+        .staff-topbar { display: flex; justify-content: space-between; align-items: center; color: var(--color-white); margin-bottom: 1rem; }
+        .staff-topbar a { color: var(--color-primary); text-decoration: none; font-weight: 600; font-size: 0.85rem; }
+        .amount-input-wrap { margin-top: 1rem; }
+        .amount-input-wrap input { font-size: 1.3rem; text-align: center; font-weight: 700; }
+    </style>
+</head>
