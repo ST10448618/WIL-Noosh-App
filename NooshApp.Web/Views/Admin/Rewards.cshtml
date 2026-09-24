@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Manage Rewards";
+    Layout = null;
+    var rules = (List<NooshApp.Web.Dtos.AdminRewardRuleDto>)ViewBag.Rules;
+    var settings = (NooshApp.Web.Dtos.AppSettingsDto)ViewBag.Settings;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Rewards</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body class="internal-page-body">
+    <div class="internal-topbar">
+        <span class="brand">NOOSH<span> Admin</span></span>
+        <div class="d-flex gap-2">
+            <a asp-controller="Admin" asp-action="MenuItems" class="internal-link">Menu</a>
+            <a asp-controller="Admin" asp-action="Logout" class="internal-link">Log out</a>
+        </div>
+    </div>
