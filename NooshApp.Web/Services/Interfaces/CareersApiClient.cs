@@ -42,6 +42,39 @@ namespace NooshApp.Web.Services
                 }
             }
         
+       try
+            {
+                var response = await _httpClient.PostAsync("api/careers/apply", content);
+                var rawBody = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    _logger.LogWarning("Careers API returned {Status}: {Body}", response.StatusCode, rawBody);
+                    string errorMessage = "Submission failed. Please try again.";
+                    try
+                    {
+                        var error = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(rawBody);
+                        if (error != null && error.TryGetValue("message", out var msg)) errorMessage = msg;
+                    }
+                    catch (System.Text.Json.JsonException) { }
+
+                    return new CareersApplyResult { Success = false, ErrorMessage = errorMessage };
+                }
+
+                var result = System.Text.Json.JsonSerializer.Deserialize<JobApplicationApiResponse>(
+                    rawBody, new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+
+                return new CareersApplyResult { Success = true, Id = result!.Id };
+            }
+            finally
+            {
+                foreach (var s in docStreams) s.Dispose();
+            }
+        }
+
+        private class JobApplicationApiResponse
+        {
+            public int Id { get; set; }
         }
     }
 }
