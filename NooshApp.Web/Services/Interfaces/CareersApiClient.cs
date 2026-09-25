@@ -13,5 +13,15 @@ namespace NooshApp.Web.Services
             _httpClient = httpClient;
             _logger = logger;
         }
+
+          public async Task<CareersApplyResult> SubmitApplicationAsync(CareerApplicationViewModel model)
+        {
+            using var content = new MultipartFormDataContent();
+            content.Add(new StringContent(model.FullName), "fullName");
+            content.Add(new StringContent(model.PhoneNumber), "phoneNumber");
+            content.Add(new StringContent(model.Email), "email");
+            content.Add(new StringContent(model.DesiredPosition), "desiredPosition");
+            content.Add(new StringContent(model.CoverLetter ?? string.Empty), "coverLetter");
+        }
     }
 }
