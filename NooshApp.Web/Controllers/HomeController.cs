@@ -1,11 +1,16 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using NooshApp.Web.Models;
+using NooshApp.Web.ViewModels;
 
 namespace NooshApp.Web.Controllers;
 
 public class HomeController : Controller
 {
+
+    private readonly IMenuApiClient _menuApiClient;
+    public HomeController(IMenuApiClient menuApiClient) { _menuApiClient = menuApiClient; }
+
     public IActionResult Index()
     {
         return View();
