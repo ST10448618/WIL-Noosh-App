@@ -10,6 +10,10 @@ namespace NooshApp.Web.Controllers
         public CareersController(ICareersApiClient careersApiClient) { _careersApiClient = careersApiClient; }
 
 
+            [HttpGet]
+        public IActionResult Apply() => View(new CareerApplicationViewModel());
+
+
 
      [HttpPost]
         [ValidateAntiForgeryToken]
@@ -26,6 +30,12 @@ namespace NooshApp.Web.Controllers
             }
 
             return RedirectToAction("Confirmation", new { id = result.Id });
+     
+
+       public IActionResult Confirmation(int id)
+        {
+            ViewBag.ApplicationId = id;
+            return View();
         }
     }
 }
