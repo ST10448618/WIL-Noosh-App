@@ -1,0 +1,68 @@
+@model NooshApp.Web.ViewModels.CateringRequestViewModel
+@{
+    ViewData["Title"] = "Catering";
+}
+
+<section class="catering-hero">
+    <div class="container">
+        <p class="section-eyebrow">Big Events, Bold Flavours</p>
+        <h1 class="menu-hero-title">Catering Requests</h1>
+        <p class="charity-hero-subtitle">
+            Feeding a crowd? Let us handle the food for your next event.
+        </p>
+    </div>
+</section>
+
+<section class="catering-form-section py-5">
+    <div class="container">
+        <div class="careers-form-card">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <form asp-controller="Catering" asp-action="Request" method="post" class="auth-form">
+                @Html.AntiForgeryToken()
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control auth-input" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control auth-input" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control auth-input" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EventDate" class="form-label"></label>
+                        <input asp-for="EventDate" class="form-control auth-input" type="date" />
+                        <span asp-validation-for="EventDate" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="GuestCount" class="form-label"></label>
+                        <input asp-for="GuestCount" class="form-control auth-input" type="number" min="1" max="1000" />
+                        <span asp-validation-for="GuestCount" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EventLocation" class="form-label"></label>
+                        <input asp-for="EventLocation" class="form-control auth-input" placeholder="Venue name or address" />
+                        <span asp-validation-for="EventLocation" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="AdditionalNotes" class="form-label"></label>
+                        <textarea asp-for="AdditionalNotes" class="form-control auth-input" rows="4" placeholder="Dietary requirements, preferred menu items, budget range, etc."></textarea>
+                        <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-hero-primary w-100 mt-4">
+                    <i class="fa-solid fa-paper-plane me-2"></i>Submit Catering Request
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
