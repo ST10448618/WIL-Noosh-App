@@ -12,7 +12,5 @@ namespace NooshApp.Api.Services.Interfaces
         Task DeleteRewardRuleAsync(int id);
         Task<AppSettings> GetSettingsAsync();
         Task UpdatePointsPerRandAsync(decimal pointsPerRand);
-        Task DeleteMenuItemAsync(int id);
-        Task<string?> UploadMenuItemImageAsync(int id, IFormFile image);
     }
 }
