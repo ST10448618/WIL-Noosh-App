@@ -135,11 +135,48 @@
             }
         </div>
 
+      <section class="menu-grid-section">
+    <div class="container">
+        <div class="row g-4" id="menuGrid">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-6 col-md-4 col-lg-3 menu-grid-item" data-category="@item.Category" data-name="@item.Name.ToLower()">
+                    <div class="meal-card">
+                        <div class="meal-card-image">
+                            <img src="@item.ImageUrl" alt="@item.Name" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                            @if (item.IsPopular)
+                            {
+                                <span class="badge-popular">Popular</span>
+                            }
+                        </div>
+                        <div class="meal-card-body">
+                            <h5 class="meal-name">@item.Name</h5>
+                            <p class="meal-description">@item.Description</p>
+                            <div class="meal-footer">
+                                <span class="meal-price">R@(item.Price.ToString("0.00"))</span>
+                            <div class="meal-tags">
+                                @if (item.IsVegetarian)
+                                {
+                                    <i class="fa-solid fa-leaf tag-veg" title="Vegetarian"></i>
+                                }
+                                <partial name="_AllergenIcons" model="item" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
         <p id="menuNoResults" class="menu-no-results d-none">
             No items match your search. Try a different term or category.
         </p>
     </div>
 </section>
+
+@section Scripts {
+    <script src="~/js/menu-filter.js"></script>
+}
 
 @section Scripts {
     <script src="~/js/menu-filter.js"></script>
