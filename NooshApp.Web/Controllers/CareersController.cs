@@ -13,8 +13,6 @@ namespace NooshApp.Web.Controllers
             [HttpGet]
         public IActionResult Apply() => View(new CareerApplicationViewModel());
 
-
-
      [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Apply(CareerApplicationViewModel model)
