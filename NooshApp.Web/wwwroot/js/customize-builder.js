@@ -52,3 +52,32 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     }
+
+     // Protein selection changes the summary.
+    proteinInputs.forEach(function (input) {
+        input.addEventListener('change', renderSummary);
+    });
+
+    // Clicking an ingredient toggles it on/off and updates styling + summary.
+    ingredientToggles.forEach(function (toggle) {
+        toggle.addEventListener('click', function () {
+            toggle.classList.toggle('active');
+            renderSummary();
+        });
+    });
+
+    // "Add To Order" — for now, confirms the selection.
+    // Real cart/order persistence is out of scope for the Master Prompt's
+    // feature list, so this stays a lightweight confirmation for now.
+    document.getElementById('addToOrderBtn').addEventListener('click', function () {
+        const protein = getSelectedProtein();
+        const activeIngredients = getActiveIngredients();
+        const summaryText = protein.name + ' Shawarma with: ' +
+            (activeIngredients.length ? activeIngredients.join(', ') : 'no extras');
+
+        alert('Added to order!\n\n' + summaryText + '\nTotal: R' + protein.price.toFixed(2));
+    });
+
+    // Render the initial state on page load.
+    renderSummary();
+});
