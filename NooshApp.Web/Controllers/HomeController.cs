@@ -75,19 +75,20 @@ public class HomeController : Controller
             };
         }
 
-       public IActionResult Charity()
+       private List<string> GetCharityGalleryImages()
         {
-            ViewBag.GalleryImages = GetCharityGalleryImages();
-            ViewBag.DonationEmail = "donate@noosheatery.co.za";
-            return View();
+            return new List<string>
+            {
+                "/images/charity/gallery-1.jpg",
+                "/images/charity/gallery-2.jpg",
+                "/images/charity/gallery-3.jpg",
+                "/images/charity/gallery-4.jpg",
+                "/images/charity/gallery-5.jpg",
+                "/images/charity/gallery-6.jpg",
+                "/images/charity/gallery-7.jpg"
+            };
         }
 
-
-
-
-
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        public IActionResult Terms() => View();
     }
 }
