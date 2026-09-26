@@ -84,3 +84,45 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+<main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="noosh-footer">
+        <div class="container">
+            <div class="row gy-4">
+                <div class="col-md-4">
+                    <div class="footer-brand-row">
+                        <h5 class="footer-brand">NOOSH<span class="brand-dot">.</span></h5>
+                    </div>
+                    <p class="footer-tagline">Bold flavours Live Here</p>
+                    <img src="~/images/badges/niht-halaal.png" alt="NIHT Halaal Certified" class="footer-halaal-badge" onerror="this.style.display='none'" />
+                </div>
+                <div class="col-md-4">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a asp-controller="Menu" asp-action="Index">Menu</a></li>
+                        <li><a asp-controller="Rewards" asp-action="Index">Rewards</a></li>
+                        <li><a asp-controller="Catering" asp-action="Request">Catering</a></li>
+                        <li><a asp-controller="Careers" asp-action="Apply">Careers</a></li>
+                        <li><a asp-controller="Home" asp-action="Terms">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="mailto:info@noosheatery.co.za"><i class="fa-solid fa-envelope me-2"></i>info@noosheatery.co.za</a></li>
+                    </ul>
+                    <h6>Follow Us</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="https://www.tiktok.com/@@noosh_eatery" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok me-2"></i>TikTok</a></li>
+                        <li><a href="https://www.instagram.com/noosh_eatery" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram me-2"></i>Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider" />
+            <p class="footer-copy">&copy; @DateTime.Now.Year NooshApp. All rights reserved.</p>
+        </div>
+    </footer>
