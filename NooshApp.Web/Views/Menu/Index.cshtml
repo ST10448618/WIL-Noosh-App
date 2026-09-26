@@ -1,0 +1,74 @@
+@model NooshApp.Web.ViewModels.MenuViewModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<section class="menu-hero">
+    <div class="container">
+        <p class="section-eyebrow">Our Menu</p>
+        <h1 class="menu-hero-title">Everything We Make</h1>
+    </div>
+</section>
+
+<section class="menu-controls">
+    <div class="container">
+        <div class="menu-search-wrap">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="menuSearch" class="menu-search-input" placeholder="Search the menu..." />
+        </div>
+
+        <div class="menu-filters" id="menuFilters">
+            <button class="filter-pill active" data-category="all">All</button>
+            @foreach (var category in Model.Categories)
+            {
+                <button class="filter-pill" data-category="@category">@category</button>
+            }
+        </div>
+    </div>
+</section>
+
+
+<section class="menu-legend-section">
+    <div class="container">
+        <div class="menu-legend-card">
+            <div class="menu-legend-column">
+                <h6 class="menu-legend-title">Heat Scale</h6>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-1"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Mild</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-2"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-2"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Medium</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Hot</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                    </span>
+                    <span class="menu-legend-label">Extra Hot</span>
+                </div>
+            </div>
+
+            <div class="menu-legend-divider"></div>
