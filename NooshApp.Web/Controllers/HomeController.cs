@@ -54,11 +54,26 @@ public class HomeController : Controller
                     Longitude = 31.012779506706707,
                     UberEatsUrl = "https://www.ubereats.com/za/store/noosh-florida-square/U1samMrsX6G2XoWoBu_Qdg?ps=1",
                     MrDUrl = "https://www.mrd.com/delivery/restaurant/noosh-florida-square-morningside/34184"
+                },
+                   new StoreLocation
+                {
+                    Name = "Noosh Pavilion",
+                    MallName = "The Pavilion Shopping Centre",
+                    Address = "5 Jack Martens Dr, Westville, Durban",
+                    PhoneNumber = "087 226 6674",
+                    HoursSchedule = new List<StoreHoursLine>
+                    {
+                        new StoreHoursLine { Label = "Sun - Thu", Time = "10:00 - 20:00" },
+                        new StoreHoursLine { Label = "Fri - Sat", Time = "10:00 - 21:00" }
+                    },
+                    MapEmbedUrl = "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3460.562523287646!2d30.938385900000004!3d-29.848047!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1ef701fc29e700a7%3A0xb7a8225019ec66b2!2sNoosh%20Pavilion%20Shopping%20Centre!5e0!3m2!1sen!2sza!4v1784145140210!5m2!1sen!2sza",
+                    Latitude = -29.847719845381857,
+                    Longitude = 30.936925320984226,
+                    UberEatsUrl = "https://www.ubereats.com/za/store/noosh-pavilion/YeTMLqRFVOmWMTp8nL2Fyw?ps=1",
+                    MrDUrl = "https://www.mrd.com/delivery/restaurant/noosh-pavillion-dawncliffe/34235"
                 }
             };
         }
-
-
 
 
 
