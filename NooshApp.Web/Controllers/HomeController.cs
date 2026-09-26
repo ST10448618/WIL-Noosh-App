@@ -75,6 +75,12 @@ public class HomeController : Controller
             };
         }
 
+       public IActionResult Charity()
+        {
+            ViewBag.GalleryImages = GetCharityGalleryImages();
+            ViewBag.DonationEmail = "donate@noosheatery.co.za";
+            return View();
+        }
 
 
 
