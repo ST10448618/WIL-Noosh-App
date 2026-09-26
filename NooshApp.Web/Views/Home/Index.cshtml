@@ -97,5 +97,72 @@
                 </div>
             </div>
         </div>
+
+        <section class="locations-section py-5" id="locations">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <p class="section-eyebrow">Find A Noosh</p>
+            <h2 class="section-title">Our Locations</h2>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var store in Model.StoreLocations)
+            {
+                        <div class="col-md-4">
+            <div class="store-card">
+                <div class="store-map-wrap">
+                    <iframe
+                        src="@store.MapEmbedUrl"
+                        width="100%"
+                        height="180"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin">
+                    </iframe>
+                </div>
+
+                <div class="store-card-body">
+                    <h5 class="store-name">@store.Name</h5>
+                    <p class="store-mall"><i class="fa-solid fa-store me-2"></i>@store.MallName</p>
+                    <p class="store-address">@store.Address</p>
+
+                <div class="store-detail store-hours-detail">
+                    <i class="fa-solid fa-clock"></i>
+                    <div class="store-hours-list">
+                        @foreach (var line in store.HoursSchedule)
+                        {
+                            @if (line.IsClosure)
+                            {
+                                <span class="store-hours-closure">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    @line.Label: @line.Time
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="store-hours-line">
+                                    <strong>@line.Label:</strong> @line.Time
+                                </span>
+                            }
+                        }
+                    </div>
+                </div>
+
+                    <div class="store-actions">
+                        <a href="tel:@store.PhoneNumber" class="store-action-btn">
+                            <i class="fa-solid fa-phone"></i> Call
+                        </a>
+                        <a href="@store.DirectionsUrl" target="_blank" rel="noopener" class="store-action-btn store-action-primary">
+                            <i class="fa-solid fa-location-dot"></i> Directions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div> 
+            }
+        </div>
+    </div>
+</section>
     </div>
 </section>
