@@ -3,18 +3,27 @@ using Microsoft.AspNetCore.Mvc;
 using NooshApp.Web.Models;
 using NooshApp.Web.ViewModels;
 
-namespace NooshApp.Web.Controllers;
-
+namespace NooshApp.Web.Controllers
+{
 public class HomeController : Controller
 {
 
     private readonly IMenuApiClient _menuApiClient;
     public HomeController(IMenuApiClient menuApiClient) { _menuApiClient = menuApiClient; }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+    public async Task<IActionResult> Index()
+        {
+            var viewModel = new HomeViewModel
+            {
+                FeaturedMeals = await _menuApiClient.GetFeaturedAsync(),
+                StoreLocations = GetStoreLocations()
+                
+            };
+
+            ViewBag.AllStores = viewModel.StoreLocations;
+            
+            return View(viewModel);
+        }
 
       private List<StoreLocation> GetStoreLocations()
         {
