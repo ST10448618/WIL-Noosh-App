@@ -1,13 +1,36 @@
-﻿<!DOCTYPE html>
+﻿@using NooshApp.Web.Helpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NooshApp.Web</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - NooshApp</title>
+
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="icon" type="image/png" href="~/images/icons/icon-192.png" asp-append-version="true" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Site styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NooshApp.Web.styles.css" asp-append-version="true" />
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="~/manifest.json" />
+    <meta name="theme-color" content="#FFFFFF" />
+
+    <!-- iOS-specific PWA support (Safari doesn't fully read manifest.json) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NOOSH." />
+    <link rel="apple-touch-icon" href="~/images/icons/icon-192.png" />
 </head>
 <body>
     <header>
