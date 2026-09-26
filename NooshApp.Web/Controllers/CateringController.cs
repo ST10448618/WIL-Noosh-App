@@ -37,6 +37,13 @@ namespace NooshApp.Web.Controllers
             var result = await _cateringApiClient.SubmitAsync(dto);
             return RedirectToAction("Confirmation", new { id = result.Id });
         }
+     public async Task<IActionResult> Confirmation(int id)
+        {
+            var result = await _cateringApiClient.GetByIdAsync(id);
+            if (result == null) return NotFound();
 
+            ViewBag.RequestId = result.Id;
+            return View();
+        }
     }
 }
