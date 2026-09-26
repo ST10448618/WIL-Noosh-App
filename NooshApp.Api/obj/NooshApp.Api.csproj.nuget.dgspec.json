@@ -64,9 +64,17 @@
               "target": "Package",
               "version": "[9.0.20, )"
             },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.20, )"
+            },
             "QRCoder": {
               "target": "Package",
               "version": "[1.8.0, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[9.0.6, )"
             }
           },
           "imports": [
