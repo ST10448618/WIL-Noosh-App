@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "Application Submitted";
+}
+
+<section class="careers-confirmation py-5">
+    <div class="container">
+        <div class="confirmation-card">
+            <i class="fa-solid fa-circle-check confirmation-icon"></i>
+            <h1 class="confirmation-title">Application Submitted!</h1>
+            <p class="confirmation-text">
+                Thanks for applying to Noosh — we've received your application
+                (Reference #@ViewBag.ApplicationId) and our team will be in touch if there's a match.
+            </p>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-hero-primary">
+                <i class="fa-solid fa-house me-2"></i>Back to Home
+            </a>
+        </div>
+    </div>
+</section>
