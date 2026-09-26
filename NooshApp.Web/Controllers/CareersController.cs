@@ -9,5 +9,23 @@ namespace NooshApp.Web.Controllers
         private readonly ICareersApiClient _careersApiClient;
         public CareersController(ICareersApiClient careersApiClient) { _careersApiClient = careersApiClient; }
 
+
+
+     [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Apply(CareerApplicationViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var result = await _careersApiClient.SubmitApplicationAsync(model);
+
+            if (!result.Success)
+            {
+                ModelState.AddModelError("CvFile", result.ErrorMessage ?? "Submission failed.");
+                return View(model);
+            }
+
+            return RedirectToAction("Confirmation", new { id = result.Id });
+        }
     }
 }
