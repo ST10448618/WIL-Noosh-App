@@ -66,3 +66,44 @@
         </div>
     </div>
 </section>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        (function () {
+            var form = document.querySelector('.auth-form');
+            var cateringEmail = 'catering@noosheatery.co.za';
+
+            form.addEventListener('submit', function () {
+                if (!form.checkValidity || form.checkValidity()) {
+                    var fullName = document.getElementById('FullName').value;
+                    var eventDate = document.getElementById('EventDate').value;
+                    var guestCount = document.getElementById('GuestCount').value;
+                    var eventLocation = document.getElementById('EventLocation').value;
+                    var notes = document.getElementById('AdditionalNotes').value;
+
+                    var subject = 'Catering Request - ' + fullName;
+                    var body = 'Hi Noosh,\n\nI would like to request catering.\n\n' +
+                        'Name: ' + fullName + '\n' +
+                        'Event Date: ' + eventDate + '\n' +
+                        'Guests: ' + guestCount + '\n' +
+                        'Location: ' + eventLocation + '\n';
+
+                    if (notes) {
+                        body += 'Notes: ' + notes + '\n';
+                    }
+
+                    body += '\nLooking forward to hearing from you!';
+
+                    var mailtoUrl = 'mailto:' + cateringEmail +
+                        '?subject=' + encodeURIComponent(subject) +
+                        '&body=' + encodeURIComponent(body);
+
+                    window.location.href = mailtoUrl;
+                }
+            });
+        })();
+    </script>
+}
