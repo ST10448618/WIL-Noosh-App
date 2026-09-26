@@ -35,3 +35,23 @@ document.addEventListener('DOMContentLoaded', function () {
             noResultsMessage.classList.add('d-none');
         }
     }
+
+    // Search box: filter as the user types.
+    searchInput.addEventListener('input', function (e) {
+        searchTerm = e.target.value.trim().toLowerCase();
+        applyFilters();
+    });
+
+    // Category pills: clicking one sets it active and filters.
+    filterPills.forEach(function (pill) {
+        pill.addEventListener('click', function () {
+            filterPills.forEach(function (p) {
+                p.classList.remove('active');
+            });
+            pill.classList.add('active');
+
+            activeCategory = pill.getAttribute('data-category');
+            applyFilters();
+        });
+    });
+});
