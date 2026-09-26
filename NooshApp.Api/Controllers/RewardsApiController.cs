@@ -32,5 +32,30 @@ namespace NooshApp.Api.Controllers
             var (balance, history) = await _rewardsService.GetAccountAsync(email);
             return Ok(new { balance, history });
         }
+
+        [HttpPost("scan")]
+        [ServiceFilter(typeof(StaffPinFilter))]
+        public async Task<IActionResult> Scan([FromBody] ScanRequestDto request)
+        {
+            var result = await _rewardsService.RedeemScanTokenAsync(request.Token, request.AmountPaid);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("submit-receipt")]
+        [ServiceFilter(typeof(FirebaseAuthFilter))]
+        public async Task<IActionResult> SubmitReceipt([FromBody] SubmitReceiptRequestDto request)
+        {
+            var email = GetVerifiedEmail();
+            var result = await _rewardsService.SubmitReceiptAsync(email, request.FullName, request.ReceiptReference, request.AmountPaid, request.PurchaseDate);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        [HttpPost("redeem")]
+        [ServiceFilter(typeof(StaffPinFilter))]
+        public async Task<IActionResult> Redeem([FromBody] StaffRedeemRequestDto request)
+        {
+            var result = await _rewardsService.RedeemRewardAsync(request.Email, request.RewardRuleId);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
     }
 }
