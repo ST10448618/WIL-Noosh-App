@@ -28,3 +28,42 @@
         </div>
     </div>
 </section>
+
+<section class="featured-meals py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <p class="section-eyebrow">Fan Favourites</p>
+            <h2 class="section-title">Featured Meals</h2>
+        </div>
+
+        <div class="row g-4">
+            @foreach (var meal in Model.FeaturedMeals)
+            {
+                <div class="col-6 col-md-3">
+                    <div class="meal-card">
+                        <div class="meal-card-image">
+                            <img src="@meal.ImageUrl" alt="@meal.Name" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                            @if (meal.IsPopular)
+                            {
+                                <span class="badge-popular">Popular</span>
+                            }
+                        </div>
+                        <div class="meal-card-body">
+                            <h5 class="meal-name">@meal.Name</h5>
+                            <p class="meal-description">@meal.Description</p>
+                            <div class="meal-footer">
+                                <span class="meal-price">R@(meal.Price.ToString("0.00"))</span>
+                                <div class="meal-tags">
+                                    @if (meal.IsVegetarian)
+                                    {
+                                        <i class="fa-solid fa-leaf tag-veg" title="Vegetarian"></i>
+                                    }
+                                    <partial name="_AllergenIcons" model="meal" /> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
