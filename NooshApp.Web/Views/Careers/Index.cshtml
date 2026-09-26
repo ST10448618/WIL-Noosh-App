@@ -46,3 +46,39 @@
         </div>
     </div>
 </section>
+
+@section Scripts {
+    <script>
+        (function () {
+            const toggleButtons = document.querySelectorAll('.careers-area-btn');
+            const positionSelect = document.getElementById('positionSelect');
+            const locationSelect = document.getElementById('locationSelect');
+            const searchBtn = document.getElementById('searchJobsBtn');
+
+            function filterPositionsByArea(area) {
+                Array.from(positionSelect.options).forEach(function (opt) {
+                    if (!opt.value) return; // keep "Any Position"
+                    opt.hidden = opt.getAttribute('data-area') !== area;
+                });
+                positionSelect.value = '';
+            }
+
+            toggleButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    toggleButtons.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    filterPositionsByArea(btn.getAttribute('data-area'));
+                });
+            });
+
+            filterPositionsByArea('restaurant'); // initial state
+
+            searchBtn.addEventListener('click', function () {
+                const params = new URLSearchParams();
+                if (positionSelect.value) params.set('position', positionSelect.value);
+                if (locationSelect.value) params.set('location', locationSelect.value);
+                window.location.href = '/Careers/Apply?' + params.toString();
+            });
+        })();
+    </script>
+}
