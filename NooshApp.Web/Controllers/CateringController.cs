@@ -12,5 +12,31 @@ namespace NooshApp.Web.Controllers
 
         [HttpGet]
         public IActionResult Request() => View(new CateringRequestViewModel());
+   
+   
+   [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Request(CateringRequestViewModel model)
+        {
+            if (model.EventDate.Date < DateTime.Today)
+                ModelState.AddModelError(nameof(model.EventDate), "Event date cannot be in the past.");
+
+            if (!ModelState.IsValid) return View(model);
+
+            var dto = new CateringRequestCreateDto
+            {
+                FullName = model.FullName,
+                PhoneNumber = model.PhoneNumber,
+                Email = model.Email,
+                EventDate = model.EventDate,
+                GuestCount = model.GuestCount,
+                EventLocation = model.EventLocation,
+                AdditionalNotes = model.AdditionalNotes
+            };
+
+            var result = await _cateringApiClient.SubmitAsync(dto);
+            return RedirectToAction("Confirmation", new { id = result.Id });
+        }
+
     }
 }
