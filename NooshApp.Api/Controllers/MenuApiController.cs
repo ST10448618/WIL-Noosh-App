@@ -16,6 +16,18 @@ namespace NooshApp.Api.Controllers
         {
             _menuService = menuService;
         }
+        //Menu endpoints added
+        [HttpGet("featured")]
+        public async Task<IActionResult> GetFeatured() =>
+            Ok(await _menuService.GetFeaturedMealsAsync());
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll() =>
+            Ok(await _menuService.GetFullMenuAsync());
+
+        [HttpGet("category/{category}")]
+        public async Task<IActionResult> GetByCategory(string category) =>
+            Ok(await _menuService.GetMenuByCategoryAsync(category));
 
         
     }
