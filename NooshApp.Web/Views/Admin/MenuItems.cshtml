@@ -1,0 +1,103 @@
+@{
+    ViewData["Title"] = "Manage Menu";
+    Layout = null;
+    var items = (List<NooshApp.Web.Dtos.MenuItemAdminDto>)ViewBag.MenuItems;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manage Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body class="internal-page-body">
+    <div class="internal-topbar">
+        <span class="brand">NOOSH<span> Admin</span></span>
+        <div class="d-flex gap-2">
+            <a asp-controller="Admin" asp-action="Rewards" class="internal-link">Rewards</a>
+            <a asp-controller="Admin" asp-action="Logout" class="internal-link">Log out</a>
+        </div>
+    </div>
+     @if (TempData["UploadError"] != null)
+    {
+        <div class="staff-status error mb-3">@TempData["UploadError"]</div>
+    }
+
+    <div class="internal-content wide">
+        <div class="admin-add-card">
+            <h4>Add New Menu Item</h4>
+            <form asp-controller="Admin" asp-action="CreateMenuItem" method="post" class="row g-2">
+                <div class="col-md-3"><label class="form-label">Name</label><input type="text" name="name" class="form-control auth-input" required /></div>
+                <div class="col-md-2"><label class="form-label">Price (R)</label><input type="number" step="0.01" name="price" class="form-control auth-input" required /></div>
+                <div class="col-md-2"><label class="form-label">Category</label><input type="text" name="category" class="form-control auth-input" required /></div>
+                <div class="col-md-3"><label class="form-label">Description</label><input type="text" name="description" class="form-control auth-input" /></div>
+                <div class="col-md-2"><label class="form-label">Spice Level</label>
+                    <select name="spiceLevel" class="form-select auth-input">
+                        <option value="0">None</option><option value="1">Mild</option>
+                        <option value="2">Medium</option><option value="3">Hot</option><option value="4">Extra Hot</option>
+                    </select>
+                </div>
+                <div class="col-12 d-flex gap-3 mt-2">
+                    <label><input type="checkbox" name="isPopular" value="true" /> Popular</label>
+                    <label><input type="checkbox" name="isVegetarian" value="true" /> Vegetarian</label>
+                    <label><input type="checkbox" name="containsEggs" value="true" /> Eggs</label>
+                    <label><input type="checkbox" name="containsWheat" value="true" /> Wheat</label>
+                    <label><input type="checkbox" name="containsDairy" value="true" /> Dairy</label>
+                    <label><input type="checkbox" name="containsSesame" value="true" /> Sesame</label>
+                </div>
+                <div class="col-12 mt-2"><button type="submit" class="btn btn-hero-primary">Add Item</button></div>
+            </form>
+        </div>
+ <table class="admin-table">
+            <thead>
+                <tr><th>Image</th><th>Name</th><th>Price</th><th>Category</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in items)
+                {
+                    <tr>
+                        <td>
+                            <img src="@(item.ImageUrl ?? "/images/placeholder-food.jpg")" alt="@item.Name" style="width:48px;height:48px;object-fit:cover;border-radius:6px;" onerror="this.src='/images/placeholder-food.jpg'" />
+                            <form asp-controller="Admin" asp-action="UploadMenuItemImage" method="post" enctype="multipart/form-data" class="mt-1">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="file" name="image" accept=".jpg,.jpeg,.png" style="font-size:0.7rem;width:100px;" />
+                                <button type="submit" class="admin-save-btn" style="font-size:0.7rem;padding:0.2rem 0.5rem;">Upload</button>
+                            </form>
+                        </td>
+                        <form asp-controller="Admin" asp-action="UpdateMenuItem" method="post" class="admin-row-form">
+                            <input type="hidden" name="id" value="@item.Id" />
+                            <td><input type="text" name="name" value="@item.Name" /></td>
+                            <td><input type="number" step="0.01" name="price" value="@item.Price" style="width:80px;" /></td>
+                            <td><input type="text" name="category" value="@item.Category" /></td>
+                            <td>
+                                <select name="isAvailable">
+                                    <option value="true" selected="@(item.IsAvailable ? "selected" : null)">Available</option>
+                                    <option value="false" selected="@(!item.IsAvailable ? "selected" : null)">Unavailable</option>
+                                </select>
+                                <input type="hidden" name="description" value="@item.Description" />
+                                <input type="hidden" name="isPopular" value="@item.IsPopular.ToString().ToLower()" />
+                                <input type="hidden" name="isVegetarian" value="@item.IsVegetarian.ToString().ToLower()" />
+                                <input type="hidden" name="spiceLevel" value="@item.SpiceLevel" />
+                                <input type="hidden" name="containsEggs" value="@item.ContainsEggs.ToString().ToLower()" />
+                                <input type="hidden" name="containsWheat" value="@item.ContainsWheat.ToString().ToLower()" />
+                                <input type="hidden" name="containsDairy" value="@item.ContainsDairy.ToString().ToLower()" />
+                                <input type="hidden" name="containsSesame" value="@item.ContainsSesame.ToString().ToLower()" />
+                            </td>
+                            <td><button type="submit" class="admin-save-btn">Save</button></td>
+                        </form>
+                        <td>
+                            <form asp-controller="Admin" asp-action="DeleteMenuItem" method="post" onsubmit="return confirm('Delete this menu item?');">
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <button type="submit" class="admin-delete-btn"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
