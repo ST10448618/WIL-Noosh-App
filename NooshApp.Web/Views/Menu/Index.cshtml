@@ -1,0 +1,183 @@
+@model NooshApp.Web.ViewModels.MenuViewModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<section class="menu-hero">
+    <div class="container">
+        <p class="section-eyebrow">Our Menu</p>
+        <h1 class="menu-hero-title">Everything We Make</h1>
+    </div>
+</section>
+
+<section class="menu-controls">
+    <div class="container">
+        <div class="menu-search-wrap">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="menuSearch" class="menu-search-input" placeholder="Search the menu..." />
+        </div>
+
+        <div class="menu-filters" id="menuFilters">
+            <button class="filter-pill active" data-category="all">All</button>
+            @foreach (var category in Model.Categories)
+            {
+                <button class="filter-pill" data-category="@category">@category</button>
+            }
+        </div>
+    </div>
+</section>
+
+
+<section class="menu-legend-section">
+    <div class="container">
+        <div class="menu-legend-card">
+            <div class="menu-legend-column">
+                <h6 class="menu-legend-title">Heat Scale</h6>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-1"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Mild</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-2"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-2"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Medium</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Hot</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                    </span>
+                    <span class="menu-legend-label">Extra Hot</span>
+                </div>
+            </div>
+
+            <div class="menu-legend-divider"></div>
+
+
+
+              <div class="menu-legend-column">
+                <h6 class="menu-legend-title">Allergens</h6>
+                <div class="menu-legend-allergens">
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-egg"></i></span>
+                        <span class="menu-legend-label">Eggs</span>
+                    </div>
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-wheat-awn"></i></span>
+                        <span class="menu-legend-label">Wheat</span>
+                    </div>
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-cheese"></i></span>
+                        <span class="menu-legend-label">Dairy</span>
+                    </div>
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-seedling"></i></span>
+                        <span class="menu-legend-label">Sesame</span>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        <p class="menu-legend-hashtag">#HowDoYouNOOSH?</p>
+    </div>
+</section>
+
+<section class="menu-grid-section">
+    <div class="container">
+        <div class="row g-4" id="menuGrid">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-6 col-md-4 col-lg-3 menu-grid-item" data-category="@item.Category" data-name="@item.Name.ToLower()">
+                    <div class="meal-card">
+                        <div class="meal-card-image">
+                            <img src="@item.ImageUrl" alt="@item.Name" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                            @if (item.IsPopular)
+                            {
+                                <span class="badge-popular">Popular</span>
+                            }
+                        </div>
+                        <div class="meal-card-body">
+                            <h5 class="meal-name">@item.Name</h5>
+                            <p class="meal-description">@item.Description</p>
+                            <div class="meal-footer">
+                                <span class="meal-price">R@(item.Price.ToString("0.00"))</span>
+                            <div class="meal-tags">
+                                @if (item.IsVegetarian)
+                                {
+                                    <i class="fa-solid fa-leaf tag-veg" title="Vegetarian"></i>
+                                }
+                                <partial name="_AllergenIcons" model="item" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+      <section class="menu-grid-section">
+    <div class="container">
+        <div class="row g-4" id="menuGrid">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-6 col-md-4 col-lg-3 menu-grid-item" data-category="@item.Category" data-name="@item.Name.ToLower()">
+                    <div class="meal-card">
+                        <div class="meal-card-image">
+                            <img src="@item.ImageUrl" alt="@item.Name" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                            @if (item.IsPopular)
+                            {
+                                <span class="badge-popular">Popular</span>
+                            }
+                        </div>
+                        <div class="meal-card-body">
+                            <h5 class="meal-name">@item.Name</h5>
+                            <p class="meal-description">@item.Description</p>
+                            <div class="meal-footer">
+                                <span class="meal-price">R@(item.Price.ToString("0.00"))</span>
+                            <div class="meal-tags">
+                                @if (item.IsVegetarian)
+                                {
+                                    <i class="fa-solid fa-leaf tag-veg" title="Vegetarian"></i>
+                                }
+                                <partial name="_AllergenIcons" model="item" />
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <p id="menuNoResults" class="menu-no-results d-none">
+            No items match your search. Try a different term or category.
+        </p>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/menu-filter.js"></script>
+}
+
+@section Scripts {
+    <script src="~/js/menu-filter.js"></script>
+}
