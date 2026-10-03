@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="NooshApp.Api.Tests/NooshApp.Api.Tests.csproj" />
   <Project Path="NooshApp.Api/NooshApp.Api.csproj" />
   <Project Path="NooshApp.Web/NooshApp.Web.csproj" />
 </Solution>
