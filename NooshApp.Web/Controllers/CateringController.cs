@@ -12,9 +12,8 @@ namespace NooshApp.Web.Controllers
 
         [HttpGet]
         public IActionResult Request() => View(new CateringRequestViewModel());
-   
-   
-   [HttpPost]
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Request(CateringRequestViewModel model)
         {
@@ -37,7 +36,8 @@ namespace NooshApp.Web.Controllers
             var result = await _cateringApiClient.SubmitAsync(dto);
             return RedirectToAction("Confirmation", new { id = result.Id });
         }
-     public async Task<IActionResult> Confirmation(int id)
+
+        public async Task<IActionResult> Confirmation(int id)
         {
             var result = await _cateringApiClient.GetByIdAsync(id);
             if (result == null) return NotFound();

@@ -22,7 +22,8 @@
             <a asp-controller="Admin" asp-action="Logout" class="internal-link">Log out</a>
         </div>
     </div>
-<div class="internal-content wide">
+
+    <div class="internal-content wide">
         <div class="admin-settings-card">
             <h4>Points-Per-Rand Rate</h4>
             <form asp-controller="Admin" asp-action="UpdateSettings" method="post" class="d-flex gap-2 align-items-end">
@@ -54,6 +55,7 @@
                 </div>
             </form>
         </div>
+
         <table class="admin-table">
             <thead>
                 <tr><th>Name</th><th>Points</th><th>Description</th><th>Status</th><th>Order</th><th></th><th></th></tr>

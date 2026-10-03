@@ -27,6 +27,10 @@ else if (!string.IsNullOrEmpty(firebaseKeyPath) && File.Exists(firebaseKeyPath))
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+builder.Services.AddScoped<ICateringRepository, CateringRepository>();
+builder.Services.AddScoped<IJobApplicationRepository, JobApplicationRepository>();
+builder.Services.AddScoped<ISupportingDocumentRepository, SupportingDocumentRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<IRewardRuleRepository, RewardRuleRepository>();
 builder.Services.AddScoped<IPointsRepository, PointsRepository>();
@@ -34,12 +38,18 @@ builder.Services.AddScoped<IScanTokenRepository, ScanTokenRepository>();
 builder.Services.AddScoped<IReceiptSubmissionRepository, ReceiptSubmissionRepository>();
 builder.Services.AddScoped<IAppSettingsRepository, AppSettingsRepository>();
 
+builder.Services.AddScoped<IMenuService, MenuService>();
+builder.Services.AddScoped<ICateringService, CateringService>();
+builder.Services.AddScoped<ICareersService, CareersService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IRewardsService, RewardsService>();
 builder.Services.AddScoped<IAdminService, AdminService>();
 
 builder.Services.AddScoped<NooshApp.Api.Auth.FirebaseAuthFilter>();
 builder.Services.AddScoped<NooshApp.Api.Auth.StaffPinFilter>();
 builder.Services.AddScoped<NooshApp.Api.Auth.AdminKeyFilter>();
+builder.Services.AddScoped<IFavouriteRepository, FavouriteRepository>();
+builder.Services.AddScoped<IFavouriteService, FavouriteService>();
 
 builder.Services.Configure<Microsoft.AspNetCore.Http.Features.FormOptions>(options =>
 {
@@ -70,6 +80,7 @@ using (var scope = app.Services.CreateScope())
     db.Database.Migrate();
 
     var selfBaseUrl = app.Configuration["SelfBaseUrl"] ?? "http://localhost:5050";
+    DbSeeder.Seed(db, selfBaseUrl);
 }
 
 app.MapGet("/health", () => Results.Ok(new { status = "awake", time = DateTime.UtcNow }));

@@ -1,8 +1,4 @@
-// Service Worker for NOOSH PWA
-// Handles install-time caching, activation cleanup,
-// offline navigation, and fast static asset loading.
-
-const CACHE_VERSION = 'noosh-cache-v10';
+const CACHE_VERSION = 'noosh-cache-v15';
 
 const CORE_ASSETS = [
     '/',
@@ -15,38 +11,49 @@ const CORE_ASSETS = [
     '/images/icons/icon-512.png'
 ];
 
-// INSTALL
 self.addEventListener('install', function (event) {
     event.waitUntil(
         caches.open(CACHE_VERSION)
             .then(function (cache) {
-                return cache.addAll(CORE_ASSETS);
+                return Promise.all(
+                    CORE_ASSETS.map(function (url) {
+                        return cache.add(url)
+                            .catch(function (error) {
+                                console.warn(
+                                    'Could not cache:',
+                                    url,
+                                    error
+                                );
+                            });
+                    })
+                );
+            })
+            .then(function () {
+                return self.skipWaiting();
             })
     );
-
-    self.skipWaiting();
 });
 
-// ACTIVATE
 self.addEventListener('activate', function (event) {
     event.waitUntil(
-        caches.keys().then(function (cacheNames) {
-            return Promise.all(
-                cacheNames
-                    .filter(function (name) {
-                        return name !== CACHE_VERSION;
-                    })
-                    .map(function (name) {
-                        return caches.delete(name);
-                    })
-            );
-        })
+        caches.keys()
+            .then(function (cacheNames) {
+                return Promise.all(
+                    cacheNames
+                        .filter(function (name) {
+                            return name !== CACHE_VERSION;
+                        })
+                        .map(function (name) {
+                            return caches.delete(name);
+                        })
+                );
+            })
+            .then(function () {
+                return self.clients.claim();
+            })
     );
-
-    self.clients.claim();
 });
 
-// FETCH
 self.addEventListener('fetch', function (event) {
     const request = event.request;
 
@@ -54,7 +61,16 @@ self.addEventListener('fetch', function (event) {
         return;
     }
 
-    // Page navigation
+    const url = new URL(request.url);
+
+    if (url.pathname.startsWith('/api/')) {
+        return;
+    }
+
+    if (url.origin !== self.location.origin) {
+        return;
+    }
+
     if (request.mode === 'navigate') {
         event.respondWith(
             fetch(request)
@@ -66,61 +82,34 @@ self.addEventListener('fetch', function (event) {
         return;
     }
 
-    const url = new URL(request.url);
-
-    // Never cache API requests
-    if (url.pathname.startsWith('/api/')) {
-        event.respondWith(
-            fetch(request)
-                .catch(function () {
-                    return Response.error();
-                })
-        );
-
-        return;
-    }
-
-    // Cache same-origin static assets
-    if (url.origin === self.location.origin) {
-        event.respondWith(
-            caches.match(request).then(function (cachedResponse) {
-
-                const networkFetch = fetch(request)
-                    .then(function (networkResponse) {
-
-                        if (networkResponse.ok) {
-                            caches.open(CACHE_VERSION)
-                                .then(function (cache) {
-                                    cache.put(
-                                        request,
-                                        networkResponse.clone()
-                                    );
-                                });
-                        }
-
-                        return networkResponse;
-                    })
-                    .catch(function () {
-                        if (cachedResponse) {
-                            return cachedResponse;
-                        }
-
-                        return Response.error();
-                    });
+    event.respondWith(
+        caches.match(request)
+            .then(function (cachedResponse) {
 
                 if (cachedResponse) {
                     return cachedResponse;
                 }
 
-                return networkFetch;
+                return fetch(request)
+                    .then(function (networkResponse) {
+
+                        if (!networkResponse || !networkResponse.ok) {
+                            return networkResponse;
+                        }
+
+                        const responseToCache =
+                            networkResponse.clone();
+
+                        caches.open(CACHE_VERSION)
+                            .then(function (cache) {
+                                cache.put(
+                                    request,
+                                    responseToCache
+                                );
+                            });
+
+                        return networkResponse;
+                    });
             })
-        );
-
-        return;
-    }
-
-    // Third-party requests
-    event.respondWith(
-        fetch(request)
     );
 });

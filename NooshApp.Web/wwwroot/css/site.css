@@ -323,20 +323,46 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 1rem;
 }
 
+/* Footer: price + actions on row 1, dietary/allergen icons on row 2.
+   Same layout at every screen size so all cards line up. */
 .meal-footer {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+        "price actions"
+        "tags  tags";
     align-items: center;
+    row-gap: 0.6rem;
+    margin-top: auto;
 }
 
 .meal-price {
+    grid-area: price;
     font-weight: 800;
     font-size: 1.1rem;
     color: var(--color-ink);
+    white-space: nowrap;
 }
 
-.meal-tags i {
-    margin-left: 0.5rem;
+.meal-actions {
+    grid-area: actions;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.meal-tags {
+    grid-area: tags;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 1.5rem; /* cards with no icons keep the same height */
+}
+
+.meal-tags i,
+.meal-tags svg {
+    margin: 0;
     font-size: 0.95rem;
 }
 
@@ -358,6 +384,10 @@ h1, h2, h3, h4, h5, h6 {
 
     .meal-description {
         font-size: 0.8rem;
+    }
+
+    .meal-card-body {
+        padding: 0.9rem;
     }
 }
 
@@ -466,6 +496,11 @@ h1, h2, h3, h4, h5, h6 {
     .filter-pill {
         font-size: 0.8rem;
         padding: 0.4rem 0.9rem;
+    }
+
+    /* keeps the last row of cards clear of the floating chat button */
+    .menu-grid-section {
+        padding-bottom: 7rem;
     }
 }
 
@@ -2102,4 +2137,118 @@ h1, h2, h3, h4, h5, h6 {
 
 @media (max-width: 575.98px) {
     .whatsapp-fab { bottom: 5.5rem; }
+}
+
+.favourite-btn { background: none; border: none; color: var(--color-gray-mid); font-size: 1.1rem; cursor: pointer; padding: 0.25rem; line-height: 1; }
+.favourite-btn.active, .favourite-btn.active i { color: #E53935; }
+
+.customize-btn { padding: 0.3rem 0.55rem; line-height: 1; }
+
+.customize-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: none; align-items: center; justify-content: center; z-index: 2000; padding: 1rem;
+}
+.customize-modal-overlay.active { display: flex; }
+.customize-modal {
+    background: white; border-radius: var(--radius-md); padding: 2rem;
+    max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; position: relative;
+}
+.customize-modal-close {
+    position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.3rem; cursor: pointer;
+}
+
+/* ============================================
+   ACCOUNT CORNER — separated, icon-first, styled dropdown
+   ============================================ */
+.account-corner {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+.account-trigger-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--color-ink);
+    color: var(--color-primary);
+    border: 2px solid var(--color-ink);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: transform 0.15s ease;
+}
+
+.account-trigger-btn:hover {
+    transform: translateY(-1px);
+    color: var(--color-primary);
+}
+
+.account-trigger-btn-login span {
+    font-size: 0.85rem;
+}
+
+.account-dropdown {
+    border-radius: var(--radius-md);
+    border: 2px solid var(--color-ink);
+    box-shadow: var(--shadow-card);
+    padding: 0.5rem;
+    min-width: 220px;
+    margin-top: 0.75rem;
+}
+
+.account-dropdown-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.75rem;
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.account-dropdown-header i {
+    font-size: 1.4rem;
+    color: var(--color-gray-mid);
+}
+
+.account-dropdown .dropdown-item {
+    border-radius: var(--radius-sm);
+    padding: 0.5rem 0.75rem;
+    font-weight: 600;
+}
+
+.account-dropdown .dropdown-item:hover {
+    background-color: var(--color-gray-light);
+}
+
+@media (max-width: 991.98px) {
+    .account-corner {
+        margin-left: 0;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #00000022;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .account-trigger-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Mobile: dropdown flows inline under the button instead of floating
+       (Popper was pushing it off the left edge of the screen) */
+    .account-corner .dropdown-menu,
+    .account-corner .account-dropdown {
+        position: static !important;
+        inset: auto !important;
+        transform: none !important;
+        float: none;
+        width: 100%;
+        min-width: 0;
+        margin-top: 0.5rem;
+    }
 }

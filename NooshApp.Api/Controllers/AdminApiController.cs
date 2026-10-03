@@ -48,5 +48,58 @@ namespace NooshApp.Api.Controllers
             return Ok(new { message = "Settings updated." });
         }
 
+        [HttpGet("menu-items")]
+        public async Task<IActionResult> GetAllMenuItems()
+        {
+            var items = await _adminService.GetAllMenuItemsAsync();
+            return Ok(items.Select(ToAdminDto));
+        }
+
+        [HttpPost("menu-items")]
+        public async Task<IActionResult> CreateMenuItem([FromBody] CreateMenuItemRequestDto request)
+        {
+            var item = await _adminService.CreateMenuItemAsync(request);
+            return Ok(ToAdminDto(item));
+        }
+
+        [HttpPut("menu-items/{id}")]
+        public async Task<IActionResult> UpdateMenuItem(int id, [FromBody] UpdateMenuItemRequestDto request)
+        {
+            var item = await _adminService.UpdateMenuItemAsync(id, request);
+            return item == null ? NotFound() : Ok(ToAdminDto(item));
+        }
+
+        [HttpDelete("menu-items/{id}")]
+        public async Task<IActionResult> DeleteMenuItem(int id)
+        {
+            await _adminService.DeleteMenuItemAsync(id);
+            return Ok(new { message = "Menu item deleted." });
+        }
+
+        [HttpPost("menu-items/{id}/image")]
+        public async Task<IActionResult> UploadMenuItemImage(int id, IFormFile image)
+        {
+            var relativeUrl = await _adminService.UploadMenuItemImageAsync(id, image);
+            if (relativeUrl == null)
+                return BadRequest(new { message = "Invalid image (must be JPG/PNG, max 5MB) or item not found." });
+
+            // The image physically lives on THIS Api server, but is rendered by the
+            // separate NooshApp.Web frontend — a relative path resolves against the
+            // wrong origin there. Store the full absolute URL instead.
+            var absoluteUrl = $"{Request.Scheme}://{Request.Host}{relativeUrl}";
+            await _adminService.UpdateMenuItemImageUrlAsync(id, absoluteUrl);
+
+            return Ok(new { imageUrl = absoluteUrl });
+        }
+
+        private static MenuItemAdminDto ToAdminDto(NooshApp.Api.Models.MenuItem item) => new()
+        {
+            Id = item.Id, Name = item.Name, Description = item.Description, Price = item.Price,
+            Category = item.Category, ImageUrl = item.ImageUrl, IsPopular = item.IsPopular,
+            IsVegetarian = item.IsVegetarian, SpiceLevel = (int)item.SpiceLevel,
+            ContainsEggs = item.ContainsEggs, ContainsWheat = item.ContainsWheat,
+            ContainsDairy = item.ContainsDairy, ContainsSesame = item.ContainsSesame,
+            IsAvailable = item.IsAvailable
+        };
     }
 }

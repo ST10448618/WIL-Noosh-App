@@ -14,7 +14,7 @@ namespace NooshApp.Web.Services
             _logger = logger;
         }
 
-          public async Task<CareersApplyResult> SubmitApplicationAsync(CareerApplicationViewModel model)
+        public async Task<CareersApplyResult> SubmitApplicationAsync(CareerApplicationViewModel model)
         {
             using var content = new MultipartFormDataContent();
             content.Add(new StringContent(model.FullName), "fullName");
@@ -22,8 +22,8 @@ namespace NooshApp.Web.Services
             content.Add(new StringContent(model.Email), "email");
             content.Add(new StringContent(model.DesiredPosition), "desiredPosition");
             content.Add(new StringContent(model.CoverLetter ?? string.Empty), "coverLetter");
-        
-         using var cvStream = model.CvFile.OpenReadStream();
+
+            using var cvStream = model.CvFile.OpenReadStream();
             using var cvContent = new StreamContent(cvStream);
             cvContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue(model.CvFile.ContentType);
             content.Add(cvContent, "cvFile", model.CvFile.FileName);
@@ -41,8 +41,8 @@ namespace NooshApp.Web.Services
                     content.Add(docContent, "supportingDocuments", doc.FileName);
                 }
             }
-        
-       try
+
+            try
             {
                 var response = await _httpClient.PostAsync("api/careers/apply", content);
                 var rawBody = await response.Content.ReadAsStringAsync();

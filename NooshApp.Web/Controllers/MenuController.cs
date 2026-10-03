@@ -8,9 +8,8 @@ namespace NooshApp.Web.Controllers
     {
         private readonly IMenuApiClient _menuApiClient;
         public MenuController(IMenuApiClient menuApiClient) { _menuApiClient = menuApiClient; }
-    
-    
-       public async Task<IActionResult> Index()
+
+        public async Task<IActionResult> Index()
         {
             var items = await _menuApiClient.GetAllAsync();
 

@@ -18,5 +18,6 @@ namespace NooshApp.Api.Dtos
         public bool ContainsWheat { get; set; }
         public bool ContainsDairy { get; set; }
         public bool ContainsSesame { get; set; }
+
     }
 }

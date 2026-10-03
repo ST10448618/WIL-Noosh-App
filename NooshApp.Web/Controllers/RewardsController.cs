@@ -13,10 +13,10 @@ namespace NooshApp.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            if (!HttpContext.Session.IsLoggedIn())
+            if (!HttpContext.IsLoggedIn())
                 return RedirectToAction("Login", "Account");
 
-            var idToken = HttpContext.Session.GetIdToken()!;
+            var idToken = HttpContext.GetIdToken()!;
             var balance = await _rewardsApiClient.GetBalanceAsync(idToken);
             var rewards = await _rewardsApiClient.GetActiveRewardsAsync();
 
@@ -31,8 +31,8 @@ namespace NooshApp.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> GenerateQr()
         {
-            if (!HttpContext.Session.IsLoggedIn()) return Unauthorized();
-            var idToken = HttpContext.Session.GetIdToken()!;
+            if (!HttpContext.IsLoggedIn()) return Unauthorized();
+            var idToken = HttpContext.GetIdToken()!;
 
             try
             {

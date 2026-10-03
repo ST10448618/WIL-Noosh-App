@@ -1,17 +1,15 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using NooshApp.Web.Models;
+using NooshApp.Web.Services;
 using NooshApp.Web.ViewModels;
 
 namespace NooshApp.Web.Controllers
 {
-public class HomeController : Controller
-{
+    public class HomeController : Controller
+    {
+        private readonly IMenuApiClient _menuApiClient;
+        public HomeController(IMenuApiClient menuApiClient) { _menuApiClient = menuApiClient; }
 
-    private readonly IMenuApiClient _menuApiClient;
-    public HomeController(IMenuApiClient menuApiClient) { _menuApiClient = menuApiClient; }
-
-    public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var viewModel = new HomeViewModel
             {
@@ -24,8 +22,8 @@ public class HomeController : Controller
             
             return View(viewModel);
         }
-
-      private List<StoreLocation> GetStoreLocations()
+        
+        private List<StoreLocation> GetStoreLocations()
         {
             return new List<StoreLocation>
             {
@@ -46,7 +44,7 @@ public class HomeController : Controller
                     UberEatsUrl = "https://www.ubereats.com/za/store/noosh-saxony-westwood/nsuGbWvGSqSQOUj1JqDKkw?ps=1",
                     MrDUrl = "https://www.mrd.com/delivery/restaurant/noosh-westwood-mall-sherwood/28174"
                 },
-                  new StoreLocation
+                new StoreLocation
                 {
                     Name = "Noosh Florida Road",
                     MallName = "Musgrave Centre",
@@ -64,7 +62,7 @@ public class HomeController : Controller
                     UberEatsUrl = "https://www.ubereats.com/za/store/noosh-florida-square/U1samMrsX6G2XoWoBu_Qdg?ps=1",
                     MrDUrl = "https://www.mrd.com/delivery/restaurant/noosh-florida-square-morningside/34184"
                 },
-                   new StoreLocation
+                new StoreLocation
                 {
                     Name = "Noosh Pavilion",
                     MallName = "The Pavilion Shopping Centre",
@@ -83,8 +81,14 @@ public class HomeController : Controller
                 }
             };
         }
+                public IActionResult Charity()
+        {
+            ViewBag.GalleryImages = GetCharityGalleryImages();
+            ViewBag.DonationEmail = "donate@noosheatery.co.za";
+            return View();
+        }
 
-       private List<string> GetCharityGalleryImages()
+        private List<string> GetCharityGalleryImages()
         {
             return new List<string>
             {

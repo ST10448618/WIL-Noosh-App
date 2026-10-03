@@ -21,7 +21,8 @@
             <a asp-controller="Admin" asp-action="Logout" class="internal-link">Log out</a>
         </div>
     </div>
-     @if (TempData["UploadError"] != null)
+
+    @if (TempData["UploadError"] != null)
     {
         <div class="staff-status error mb-3">@TempData["UploadError"]</div>
     }
@@ -51,7 +52,8 @@
                 <div class="col-12 mt-2"><button type="submit" class="btn btn-hero-primary">Add Item</button></div>
             </form>
         </div>
- <table class="admin-table">
+
+        <table class="admin-table">
             <thead>
                 <tr><th>Image</th><th>Name</th><th>Price</th><th>Category</th><th>Status</th><th></th></tr>
             </thead>
