@@ -21,29 +21,10 @@
 
 ---
 
-## Demonstration Video
-
-<p align="center">
-  <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID">
-    <img src="https://img.shields.io/badge/YouTube-Watch%20Demo-red?style=for-the-badge&logo=youtube&logoColor=white"/>
-  </a>
-</p>
-
-> Click the badge above to watch a full walkthrough of the NooshApp application, covering the digital menu, rewards and QR flow, staff and admin tools, catering and careers.
-
----
-
-## Main Project Link
-<p align="center">
-  <a href="https://github.com/YOUR-ORG/YOUR-MAIN-REPOSITORY">
-    <img src="https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github&logoColor=white" />
-  </a>
-</p>
-
 ## Backup Project Link
 
 <p align="center">
-  <a href="https://github.com/YOUR-ACCOUNT/YOUR-BACKUP-REPOSITORY">
+  <a href="https://github.com/ST10448618/WIL-Noosh-App.git">
     <img src="https://img.shields.io/badge/GitHub-Repository-white?style=for-the-badge&logo=github&logoColor=black" />
   </a>
 </p>
