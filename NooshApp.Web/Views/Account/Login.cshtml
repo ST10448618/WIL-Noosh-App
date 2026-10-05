@@ -1,0 +1,144 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-card">
+            <p class="section-eyebrow text-center">Welcome to Noosh</p>
+
+            <div class="tabs mb-3" id="authTabs">
+                <button type="button" class="tab-btn active" data-tab="login">Log In</button>
+                <button type="button" class="tab-btn" data-tab="register">Create Account</button>
+            </div>
+
+            <!-- LOG IN -->
+            <div id="loginTab">
+                <h1 class="auth-title">Welcome Back</h1>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-control auth-input" placeholder="you@example.com" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="loginPassword" class="form-control auth-input" />
+                </div>
+                <button type="button" id="loginBtn" class="btn btn-hero-primary w-100">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>Log In
+                </button>
+            </div>
+
+            <!-- REGISTER -->
+            <div id="registerTab" class="d-none">
+                <h1 class="auth-title">Join Noosh Rewards</h1>
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" id="registerName" class="form-control auth-input" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" id="registerEmail" class="form-control auth-input" placeholder="you@example.com" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="registerPassword" class="form-control auth-input" placeholder="At least 6 characters" />
+                </div>
+                <button type="button" id="registerBtn" class="btn btn-hero-primary w-100">
+                    <i class="fa-solid fa-user-plus me-2"></i>Create Account
+                </button>
+            </div>
+
+            <div id="loginError" class="text-danger mt-3"></div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+<script>
+    const firebaseConfig = {
+        apiKey: "@ViewBag.FirebaseApiKey",
+        authDomain: "@ViewBag.FirebaseAuthDomain",
+        projectId: "@ViewBag.FirebaseProjectId"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    const errorBox = document.getElementById('loginError');
+
+    // ---- Tab switching ----
+    document.querySelectorAll('#authTabs .tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('#authTabs .tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('loginTab').classList.toggle('d-none', btn.dataset.tab !== 'login');
+            document.getElementById('registerTab').classList.toggle('d-none', btn.dataset.tab !== 'register');
+            errorBox.textContent = '';
+        });
+    });
+
+    async function completeServerLogin(user) {
+        const idToken = await user.getIdToken();
+        const response = await fetch('/Account/CompleteLogin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `email=${encodeURIComponent(user.email)}&idToken=${encodeURIComponent(idToken)}&fullName=${encodeURIComponent(user.displayName || '')}`
+        });
+        window.location.href = response.ok ? '/' : '/Account/Login';
+    }
+
+    // ---- Log in ----
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+        errorBox.textContent = '';
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        try {
+            const result = await firebase.auth().signInWithEmailAndPassword(email, password);
+            await completeServerLogin(result.user);
+        } catch (err) {
+            errorBox.textContent = friendlyError(err);
+        }
+    });
+
+    // ---- Register ----
+    document.getElementById('registerBtn').addEventListener('click', async () => {
+        errorBox.textContent = '';
+        const name = document.getElementById('registerName').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+
+        try {
+            const result = await firebase.auth().createUserWithEmailAndPassword(email, password);
+            if (name) {
+                await result.user.updateProfile({ displayName: name });
+            }
+            await completeServerLogin(result.user);
+        } catch (err) {
+            errorBox.textContent = friendlyError(err);
+        }
+    });
+
+    function friendlyError(err) {
+        switch (err.code) {
+            case 'auth/email-already-in-use': return 'An account with this email already exists — try logging in instead.';
+            case 'auth/weak-password': return 'Password must be at least 6 characters.';
+            case 'auth/invalid-email': return 'Please enter a valid email address.';
+            case 'auth/wrong-password':
+            case 'auth/invalid-credential': return 'Incorrect email or password.';
+            case 'auth/user-not-found': return 'No account found with this email — try creating one instead.';
+            default: return err.message;
+        }
+    }
+
+    // ---- "Stay logged in": if Firebase already has a session in this
+    // browser (e.g. they closed the tab and came back), silently complete
+    // server login again rather than making them re-enter credentials. ----
+    firebase.auth().onAuthStateChanged(async (user) => {
+        if (user) {
+            await completeServerLogin(user);
+        }
+    });
+</script>
+}

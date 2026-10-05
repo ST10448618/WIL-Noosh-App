@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>You're Offline - NOOSH.</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: #FFC72C;
+            color: #111111;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .offline-wrap { max-width: 420px; }
+        .offline-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+        .offline-message {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+        .offline-retry {
+            display: inline-block;
+            background-color: #111111;
+            color: #FFC72C;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 6px;
+            text-decoration: none;
+            border: 2px solid #111111;
+            cursor: pointer;
+        }
+        .offline-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-wrap">
+        <div class="offline-icon">📡</div>
+        <h1 class="offline-title">NOOSH<span style="color:#111">.</span></h1>
+        <p class="offline-message">
+            You're currently offline. Check your connection and try again —
+            your favourite shawarmas will still be here.
+        </p>
+        <a href="/" class="offline-retry" onclick="window.location.reload(); return false;">
+            Try Again
+        </a>
+    </div>
+</body>
+</html>

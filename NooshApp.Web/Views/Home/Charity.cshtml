@@ -1,0 +1,92 @@
+@{
+    ViewData["Title"] = "Charity";
+}
+
+<section class="charity-hero">
+    <div class="container">
+        <p class="section-eyebrow">Giving Back</p>
+        <h1 class="menu-hero-title">Noosh Cares</h1>
+        <p class="charity-hero-subtitle">
+            Bold flavours, bigger heart — see how we're supporting our community.
+        </p>
+    </div>
+</section>
+
+<section class="charity-mission py-5">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <p class="section-eyebrow">Our Mission</p>
+                <h2 class="section-title">Feeding More Than Just Appetites</h2>
+                <p class="charity-body-text">
+                At NOOSH, we believe that a great meal can do more than satisfy hunger—it can bring hope, restore dignity, and bring people together.
+                The Nourish by NOOSH Foundation is our community initiative dedicated to supporting individuals and families 
+                in need through food relief, community outreach, and meaningful partnerships.
+                </p>
+
+            </div>
+            <div class="col-lg-6">
+                <div class="charity-image-wrap">
+                    <img src="~/images/charity/mission.jpg" alt="Community volunteers preparing meals" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="charity-run py-5">
+    <div class="container">
+        <div class="row align-items-center g-5 flex-lg-row-reverse">
+            <div class="col-lg-6">
+                <p class="section-eyebrow">Our Vision</p>
+                <h2 class="section-title">Our Commitment</h2>
+                <p class="charity-body-text">
+                    The Nourish by NOOSH Foundation is more than a charitable initiative—it is our promise to give back to the communities that have supported us.
+                    Whether we're responding to community requests, assisting families during difficult times, 
+                    or partnering with local organisations, we are committed to serving with sincerity, dignity, and care.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="charity-image-wrap">
+                    <img src="~/images/charity/vision.jpg" alt="Charity run participants" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="charity-gallery py-5">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <p class="section-eyebrow">In The Community</p>
+            <h2 class="section-title">Moments That Matter</h2>
+        </div>
+
+        <div class="charity-gallery-grid">
+            @foreach (var imagePath in (List<string>)ViewBag.GalleryImages)
+            {
+                <div class="charity-gallery-item">
+                    <img src="@imagePath" alt="Noosh community charity work" onerror="this.closest('.charity-gallery-item').style.display='none';" />
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+
+<section class="charity-donate py-5">
+    <div class="container">
+        <div class="charity-donate-card">
+            <i class="fa-solid fa-heart charity-donate-icon"></i>
+            <h2>Want To Donate Directly?</h2>
+            <p>
+                Every contribution — big or small — helps us do more for our community.
+                Reach out to our team to find out how you can get involved or contribute directly.
+            </p>
+            <a href="mailto:@ViewBag.DonationEmail?subject=Donation%20Enquiry" class="btn btn-hero-primary">
+                <i class="fa-solid fa-envelope me-2"></i>Get In Touch
+            </a>
+        </div>
+    </div>
+</section>

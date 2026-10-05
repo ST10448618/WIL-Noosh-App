@@ -1,50 +1,168 @@
-﻿<!DOCTYPE html>
+﻿@using NooshApp.Web.Helpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - NooshApp.Web</title>
-    <script type="importmap"></script>
+    <title>@ViewData["Title"] - NOOSH.</title>
+
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+    <link rel="icon" type="image/png" href="~/images/icons/icon-192.png" asp-append-version="true" />
+
+    <meta name="google-site-verification" content="OGspGr9mlKHqrP9-pwmkn_y1vNwgTkcUNj1zYMOy5sM" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Site styles -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/NooshApp.Web.styles.css" asp-append-version="true" />
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="~/manifest.json" />
+    <meta name="theme-color" content="#FFFFFF" />
+
+    <!-- iOS-specific PWA support (Safari doesn't fully read manifest.json) -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="NOOSH." />
+    <link rel="apple-touch-icon" href="~/images/icons/icon-192.png" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">NooshApp.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <div id="pageLoader"></div>
+            <nav class="navbar navbar-expand-lg noosh-navbar sticky-top">
+            <div class="container">
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    NOOSH<span class="brand-dot">.</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="mainNav">
+                    <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Menu" asp-action="Index">Menu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Catering" asp-action="Request">Catering</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Charity">Charity</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Careers" asp-action="Apply">Careers</a>
                         </li>
                     </ul>
+
+                    <div class="account-corner">
+                        @if (Context.User.Identity?.IsAuthenticated == true)
+                        {
+                            <div class="dropdown">
+                                <button class="account-trigger-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-circle-user"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end account-dropdown">
+                                    <li class="account-dropdown-header">
+                                        <i class="fa-solid fa-circle-user"></i>
+                                        <span>@(Context.User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? Context.GetEmail() ?? "Account")</span>
+                                    </li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-controller="Rewards" asp-action="Index"><i class="fa-solid fa-star me-2"></i>Rewards</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Favourites" asp-action="Index"><i class="fa-solid fa-heart me-2"></i>Favourites</a></li>
+                                    <li><hr class="dropdown-divider" /></li>
+                                    <li><a class="dropdown-item" asp-controller="Account" asp-action="Logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Log Out</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <a class="account-trigger-btn account-trigger-btn-login" asp-controller="Account" asp-action="Login">
+                                <i class="fa-solid fa-circle-user"></i>
+                                <span>Log In</span>
+                            </a>
+                        }
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer class="noosh-footer">
         <div class="container">
-            &copy; 2026 - NooshApp.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <div class="row gy-4">
+                <div class="col-md-4">
+                    <div class="footer-brand-row">
+                        <h5 class="footer-brand">NOOSH<span class="brand-dot">.</span></h5>
+                    </div>
+                    <p class="footer-tagline">Bold flavours Live Here</p>
+                    <img src="~/images/badges/niht-halaal.png" alt="NIHT Halaal Certified" class="footer-halaal-badge" onerror="this.style.display='none'" />
+                </div>
+                <div class="col-md-4">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a asp-controller="Menu" asp-action="Index">Menu</a></li>
+                        <li><a asp-controller="Rewards" asp-action="Index">Rewards</a></li>
+                        <li><a asp-controller="Catering" asp-action="Request">Catering</a></li>
+                        <li><a asp-controller="Careers" asp-action="Apply">Careers</a></li>
+                        <li><a asp-controller="Home" asp-action="Terms">Terms &amp; Conditions</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h6>Contact</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="mailto:info@noosheatery.co.za"><i class="fa-solid fa-envelope me-2"></i>info@noosheatery.co.za</a></li>
+                    </ul>
+                    <h6>Follow Us</h6>
+                    <ul class="list-unstyled footer-links">
+                        <li><a href="https://www.tiktok.com/@@noosh_eatery" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok me-2"></i>TikTok</a></li>
+                        <li><a href="https://www.instagram.com/noosh_eatery" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram me-2"></i>Instagram</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="footer-divider" />
+            <p class="footer-copy">&copy; @DateTime.Now.Year NooshApp. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+    window.NOOSH_STORES = [
+        @foreach (var store in ((List<NooshApp.Web.ViewModels.StoreLocation>)(ViewBag.AllStores ?? new List<NooshApp.Web.ViewModels.StoreLocation>())))
+        {
+            @:{ name: "@store.Name", lat: @store.Latitude, lng: @store.Longitude, uber: "@store.UberEatsUrl", mrd: "@store.MrDUrl" },
+        }
+    ];
+    </script> 
+    
+<a href="https://wa.me/27759716665?text=Hi" target="_blank" rel="noopener" class="whatsapp-fab" id="whatsappFab" aria-label="Chat with Bra Noosh on WhatsApp">
+<svg class="fab-shawarma-icon" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+    <rect x="10" y="14" width="28" height="22" rx="6" fill="#111111"/>
+    <circle cx="19" cy="25" r="3" fill="#FFC72C"/>
+    <circle cx="29" cy="25" r="3" fill="#FFC72C"/>
+    <rect x="17" y="32" width="14" height="2.5" rx="1.2" fill="#FFC72C"/>
+    <rect x="22" y="6" width="4" height="8" fill="#111111"/>
+    <circle cx="24" cy="5" r="3" fill="#FFC72C"/>
+</svg>
+    <span class="whatsapp-fab-tooltip">Chat with Bra Noosh</span>
+</a>
+
+    <script src="~/js/page-loader.js" asp-append-version="true"></script>
+    <script src="~/js/nearest-store.js" asp-append-version="true"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/service-worker-register.js" asp-append-version="true"></script>
+    <script src="~/js/image-lazyload.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

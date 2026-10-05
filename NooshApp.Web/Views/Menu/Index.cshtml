@@ -1,0 +1,288 @@
+@model NooshApp.Web.ViewModels.MenuViewModel
+@{
+    ViewData["Title"] = "Menu";
+}
+
+<section class="menu-hero">
+    <div class="container">
+        <p class="section-eyebrow">Our Menu</p>
+        <h1 class="menu-hero-title">Everything We Make</h1>
+    </div>
+</section>
+
+<section class="menu-controls">
+    <div class="container">
+        <div class="menu-search-wrap">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="menuSearch" class="menu-search-input" placeholder="Search the menu..." />
+        </div>
+
+        <div class="menu-filters" id="menuFilters">
+            <button class="filter-pill active" data-category="all">All</button>
+            @foreach (var category in Model.Categories)
+            {
+                <button class="filter-pill" data-category="@category">@category</button>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="menu-legend-section">
+    <div class="container">
+        <div class="menu-legend-card">
+            <div class="menu-legend-column">
+                <h6 class="menu-legend-title">Heat Scale</h6>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-1"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Mild</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-2"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-2"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Medium</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-3"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper"></i>
+                    </span>
+                    <span class="menu-legend-label">Hot</span>
+                </div>
+                <div class="menu-legend-row">
+                    <span class="spice-indicator">
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                        <i class="fa-solid fa-pepper-hot spice-pepper filled level-4"></i>
+                    </span>
+                    <span class="menu-legend-label">Extra Hot</span>
+                </div>
+            </div>
+
+            <div class="menu-legend-divider"></div>
+
+            <div class="menu-legend-column">
+                <h6 class="menu-legend-title">Allergens</h6>
+                <div class="menu-legend-allergens">
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-egg"></i></span>
+                        <span class="menu-legend-label">Eggs</span>
+                    </div>
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-wheat-awn"></i></span>
+                        <span class="menu-legend-label">Wheat</span>
+                    </div>
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-cheese"></i></span>
+                        <span class="menu-legend-label">Dairy</span>
+                    </div>
+                    <div class="menu-legend-allergen-item">
+                        <span class="allergen-icon allergen-icon-lg"><i class="fa-solid fa-seedling"></i></span>
+                        <span class="menu-legend-label">Sesame</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="menu-legend-hashtag">#HowDoYouNOOSH?</p>
+    </div>
+</section>
+
+<section class="menu-grid-section">
+    <div class="container">
+        <div class="row g-4" id="menuGrid">
+            @foreach (var item in Model.Items)
+            {
+                <div class="col-6 col-md-4 col-lg-3 menu-grid-item" data-category="@item.Category" data-name="@item.Name.ToLower()">
+                    <div class="meal-card">
+                        <div class="meal-card-image">
+                            <img src="@item.ImageUrl" alt="@item.Name" onerror="this.onerror=null; this.src='/images/placeholder-food.jpg';" />
+                            @if (item.IsPopular)
+                            {
+                                <span class="badge-popular">Popular</span>
+                            }
+                        </div>
+                        <div class="meal-card-body">
+                            <h5 class="meal-name">@item.Name</h5>
+                            <p class="meal-description">@item.Description</p>
+
+                            <div class="meal-footer">
+                                <span class="meal-price">R@(item.Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture))</span>
+
+                                <div class="meal-actions">
+                                    <button class="favourite-btn"
+                                            type="button"
+                                            data-item-id="@item.Id"
+                                            aria-label="Favourite @item.Name"
+                                            onclick="toggleFavourite(this)">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+
+                                     @if (item.Category == "Shawarma Wraps" || item.Category == "Shawarma Bowls")
+                                    {
+                                    <button class="btn btn-hero-secondary btn-sm customize-btn"
+                                            type="button"
+                                            data-name="@item.Name"
+                                            data-price="@item.Price.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)"
+                                            aria-label="Customize @item.Name"
+                                            onclick="openCustomizeModal(this.dataset.name, this.dataset.price)">
+                                        <i class="fa-solid fa-sliders"></i>
+                                    </button>
+                                    }
+                                </div>
+
+                                <div class="meal-tags">
+                                    @if (item.IsVegetarian)
+                                    {
+                                        <i class="fa-solid fa-leaf tag-veg" title="Vegetarian"></i>
+                                    }
+
+                                    <partial name="_AllergenIcons" model="item" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <p id="menuNoResults" class="menu-no-results d-none">
+            No items match your search. Try a different term or category.
+        </p>
+    </div>
+</section>
+
+<div class="customize-modal-overlay" id="customizeModalOverlay">
+    <div class="customize-modal">
+        <button class="customize-modal-close" onclick="closeCustomizeModal()"><i class="fa-solid fa-xmark"></i></button>
+        <h4 class="builder-section-title" id="customizeModalTitle">Customize</h4>
+
+        <p class="builder-hint">Extras</p>
+        <div class="ingredient-grid" id="customizeExtras">
+            <button type="button" class="ingredient-toggle" data-name="Extra Cheese"><i class="fa-solid fa-cheese"></i><span>Extra Cheese</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+            <button type="button" class="ingredient-toggle" data-name="Extra Sauce"><i class="fa-solid fa-droplet"></i><span>Extra Sauce</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+            <button type="button" class="ingredient-toggle" data-name="Fries"><i class="fa-solid fa-fries"></i><span>Fries</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+        </div>
+
+        <p class="builder-hint mt-3">Removals — tap to remove</p>
+        <div class="ingredient-grid" id="customizeRemovals">
+            <button type="button" class="ingredient-toggle active" data-name="Onions"><i class="fa-solid fa-seedling"></i><span>Onions</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+            <button type="button" class="ingredient-toggle active" data-name="Tomatoes"><i class="fa-solid fa-apple-whole"></i><span>Tomatoes</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+            <button type="button" class="ingredient-toggle active" data-name="Pickles"><i class="fa-solid fa-carrot"></i><span>Pickles</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+            <button type="button" class="ingredient-toggle active" data-name="Lettuce"><i class="fa-solid fa-leaf"></i><span>Lettuce</span><i class="fa-solid fa-circle-check ingredient-check"></i></button>
+        </div>
+
+        <p class="builder-hint mt-3">Sauce</p>
+        <select class="form-select auth-input" id="customizeSauce">
+            <option>Garlic Sauce</option><option>Peri Peri</option><option>Chilli Paste</option><option>No Sauce</option>
+        </select>
+
+        <p class="builder-hint mt-3">Side</p>
+        <select class="form-select auth-input" id="customizeSide">
+            <option>Fries</option><option>Rice</option><option>Half & Half</option><option>No Side</option>
+        </select>
+
+        <p class="builder-hint mt-3">Cooking Preference</p>
+        <select class="form-select auth-input" id="customizeCooking">
+            <option>Normal</option><option>Extra Crispy</option><option>Light Grill</option>
+        </select>
+
+        <button class="btn btn-hero-primary w-100 mt-4" onclick="confirmCustomize()">
+            <i class="fa-solid fa-cart-plus me-2"></i>Add To Order — <span id="customizeModalPrice"></span>
+        </button>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/menu-filter.js"></script>
+    <script>
+    (function () {
+        document.addEventListener('click', async function (e) {
+            const btn = e.target.closest('.favourite-btn');
+            if (!btn) return;
+
+            try {
+                const id = btn.dataset.itemId;
+                const res = await fetch('/Favourites/Toggle', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `menuItemId=${id}`
+                });
+
+                if (res.status === 401) {
+                    window.location.href = '/Account/Login';
+                    return;
+                }
+                if (!res.ok) {
+                    console.error('Favourite toggle failed:', res.status);
+                    return;
+                }
+
+                const data = await res.json();
+                const icon = btn.querySelector('i');
+                icon.className = data.isFavourited ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+                btn.classList.toggle('active', data.isFavourited);
+            } catch (err) {
+                console.error('Favourite toggle error:', err);
+            }
+        });
+    })();
+    </script>
+
+    <script>
+    (function () {
+        let customizeBasePrice = 0;
+        let customizeItemName = '';
+
+        window.openCustomizeModal = function (name, price) {
+            const overlay = document.getElementById('customizeModalOverlay');
+            if (!overlay) { console.error('customizeModalOverlay not found in DOM'); return; }
+
+            customizeItemName = name;
+            customizeBasePrice = parseFloat(price) || 0;
+
+            const titleEl = document.getElementById('customizeModalTitle');
+            const priceEl = document.getElementById('customizeModalPrice');
+            if (titleEl) titleEl.textContent = 'Customize: ' + name;
+            if (priceEl) priceEl.textContent = 'R' + customizeBasePrice.toFixed(2);
+
+            overlay.classList.add('active');
+        };
+
+        window.closeCustomizeModal = function () {
+            const overlay = document.getElementById('customizeModalOverlay');
+            if (overlay) overlay.classList.remove('active');
+        };
+
+        window.confirmCustomize = function () {
+            const extras = Array.from(document.querySelectorAll('#customizeExtras .ingredient-toggle.active')).map(b => b.dataset.name);
+            const removed = Array.from(document.querySelectorAll('#customizeRemovals .ingredient-toggle:not(.active)')).map(b => b.dataset.name);
+            const sauceEl = document.getElementById('customizeSauce');
+            const sideEl = document.getElementById('customizeSide');
+            const cookingEl = document.getElementById('customizeCooking');
+
+            let summary = `${customizeItemName}\nSauce: ${sauceEl ? sauceEl.value : 'N/A'} | Side: ${sideEl ? sideEl.value : 'N/A'} | Cooking: ${cookingEl ? cookingEl.value : 'N/A'}`;
+            if (extras.length) summary += `\nExtras: ${extras.join(', ')}`;
+            if (removed.length) summary += `\nRemoved: ${removed.join(', ')}`;
+            summary += `\nTotal: R${customizeBasePrice.toFixed(2)}`;
+
+            alert('Added to order!\n\n' + summary);
+            window.closeCustomizeModal();
+        };
+
+        document.querySelectorAll('#customizeExtras .ingredient-toggle, #customizeRemovals .ingredient-toggle').forEach(function (btn) {
+            btn.addEventListener('click', function () { btn.classList.toggle('active'); });
+        });
+    })();
+    </script>
+}

@@ -1,0 +1,73 @@
+@model NooshApp.Web.ViewModels.CareerApplicationViewModel
+@{
+    ViewData["Title"] = "Careers";
+}
+
+<section class="careers-hero">
+    <div class="container">
+        <p class="section-eyebrow">Join The Team</p>
+        <h1 class="menu-hero-title">Careers at Noosh</h1>
+        <p class="charity-hero-subtitle">
+            Bring your energy, we'll bring the training. Apply below.
+        </p>
+    </div>
+</section>
+
+<section class="careers-form-section py-5">
+    <div class="container">
+        <div class="careers-form-card">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <form asp-controller="Careers" asp-action="Apply" method="post" enctype="multipart/form-data" class="auth-form">
+                @Html.AntiForgeryToken()
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="FullName" class="form-label"></label>
+                        <input asp-for="FullName" class="form-control auth-input" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="PhoneNumber" class="form-label"></label>
+                        <input asp-for="PhoneNumber" class="form-control auth-input" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label"></label>
+                        <input asp-for="Email" class="form-control auth-input" type="email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="DesiredPosition" class="form-label"></label>
+                        <input asp-for="DesiredPosition" class="form-control auth-input" placeholder="e.g. Cashier, Kitchen Staff" />
+                        <span asp-validation-for="DesiredPosition" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="CoverLetter" class="form-label"></label>
+                        <textarea asp-for="CoverLetter" class="form-control auth-input" rows="5" placeholder="Tell us why you'd be a great fit (optional)"></textarea>
+                        <span asp-validation-for="CoverLetter" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="CvFile" class="form-label"></label>
+                        <input asp-for="CvFile" class="form-control auth-input" type="file" accept=".pdf,.docx" />
+                        <span asp-validation-for="CvFile" class="text-danger"></span>
+                        <p class="careers-file-hint">PDF or Word (.docx), max 5MB.</p>
+                    </div>
+                    <div class="col-12">
+                        <label asp-for="SupportingDocuments" class="form-label"></label>
+                        <input asp-for="SupportingDocuments" class="form-control auth-input" type="file" accept=".pdf,.docx,.jpg,.jpeg,.png" multiple />
+                        <p class="careers-file-hint">Optional — certificates, references, or a portfolio. Up to 3 files, PDF/Word/image, max 5MB each.</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-hero-primary w-100 mt-4">
+                    <i class="fa-solid fa-paper-plane me-2"></i>Submit Application
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

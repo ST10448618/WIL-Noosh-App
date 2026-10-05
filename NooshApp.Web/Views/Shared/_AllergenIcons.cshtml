@@ -1,0 +1,13 @@
+@model NooshApp.Web.Dtos.MenuItemDto
+@{
+    var hasAnyAllergen = Model.ContainsEggs || Model.ContainsWheat || Model.ContainsDairy || Model.ContainsSesame;
+}
+@if (hasAnyAllergen)
+{
+    <div class="allergen-icons">
+        @if (Model.ContainsEggs) { <span class="allergen-icon" title="Contains Eggs"><i class="fa-solid fa-egg"></i></span> }
+        @if (Model.ContainsWheat) { <span class="allergen-icon" title="Contains Wheat"><i class="fa-solid fa-wheat-awn"></i></span> }
+        @if (Model.ContainsDairy) { <span class="allergen-icon" title="Contains Dairy"><i class="fa-solid fa-cheese"></i></span> }
+        @if (Model.ContainsSesame) { <span class="allergen-icon" title="Contains Sesame"><i class="fa-solid fa-seedling"></i></span> }
+    </div>
+}

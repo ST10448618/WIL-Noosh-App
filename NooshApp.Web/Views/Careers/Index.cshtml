@@ -1,0 +1,84 @@
+@{
+    ViewData["Title"] = "Careers";
+}
+
+<section class="careers-search-hero">
+    <div class="careers-search-hero-inner">
+        <p class="careers-search-eyebrow">Join The Team</p>
+        <h1 class="careers-search-title">Great People.<br />Bold Flavours.</h1>
+    </div>
+</section>
+
+<section class="careers-search-card-section">
+    <div class="container">
+        <div class="careers-search-card">
+            <p class="careers-search-label">Career Area</p>
+            <div class="careers-area-toggle" id="careerAreaToggle">
+                <button type="button" class="careers-area-btn active" data-area="restaurant">In-Store</button>
+                <button type="button" class="careers-area-btn" data-area="headoffice">Head Office</button>
+            </div>
+
+            <p class="careers-search-label mt-4">Position</p>
+            <select class="form-select careers-search-select" id="positionSelect">
+                <option value="">Any Position</option>
+                @foreach (var position in (string[])ViewBag.RestaurantPositions)
+                {
+                    <option value="@position" data-area="restaurant">@position</option>
+                }
+                @foreach (var position in (string[])ViewBag.HeadOfficePositions)
+                {
+                    <option value="@position" data-area="headoffice">@position</option>
+                }
+            </select>
+
+            <p class="careers-search-label mt-4">Location</p>
+            <select class="form-select careers-search-select" id="locationSelect">
+                <option value="">Any Location</option>
+                @foreach (var location in (string[])ViewBag.Locations)
+                {
+                    <option value="@location">@location</option>
+                }
+            </select>
+
+            <button type="button" class="btn btn-hero-primary w-100 mt-4" id="searchJobsBtn">
+                <i class="fa-solid fa-magnifying-glass me-2"></i>Search Jobs
+            </button>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        (function () {
+            const toggleButtons = document.querySelectorAll('.careers-area-btn');
+            const positionSelect = document.getElementById('positionSelect');
+            const locationSelect = document.getElementById('locationSelect');
+            const searchBtn = document.getElementById('searchJobsBtn');
+
+            function filterPositionsByArea(area) {
+                Array.from(positionSelect.options).forEach(function (opt) {
+                    if (!opt.value) return; // keep "Any Position"
+                    opt.hidden = opt.getAttribute('data-area') !== area;
+                });
+                positionSelect.value = '';
+            }
+
+            toggleButtons.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    toggleButtons.forEach(function (b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    filterPositionsByArea(btn.getAttribute('data-area'));
+                });
+            });
+
+            filterPositionsByArea('restaurant'); // initial state
+
+            searchBtn.addEventListener('click', function () {
+                const params = new URLSearchParams();
+                if (positionSelect.value) params.set('position', positionSelect.value);
+                if (locationSelect.value) params.set('location', locationSelect.value);
+                window.location.href = '/Careers/Apply?' + params.toString();
+            });
+        })();
+    </script>
+}

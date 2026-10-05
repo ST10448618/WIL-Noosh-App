@@ -1,0 +1,56 @@
+@model List<NooshApp.Web.Dtos.FavouriteMenuItemDto>
+@{ ViewData["Title"] = "My Favourites"; }
+
+<section class="rewards-hero">
+    <div class="container">
+        <p class="section-eyebrow">Noosh</p>
+        <h1 class="menu-hero-title">My Favourites</h1>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        @if (!Model.Any())
+        {
+            <p class="rewards-empty text-center">No favourites yet — tap the heart on any menu item to save it here.</p>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-6 col-md-3">
+                        <div class="meal-card">
+                            <div class="meal-card-image">
+                                <img src="@(item.ImageUrl ?? "/images/placeholder-food.jpg")" alt="@item.Name" loading="lazy" onerror="this.src='/images/placeholder-food.jpg'" />
+                            </div>
+                            <div class="meal-card-body">
+                                <h5 class="meal-name">@item.Name</h5>
+                                <div class="meal-footer">
+                                    <span class="meal-price">R@(item.Price.ToString("0.00"))</span>
+                                    <button class="favourite-btn active" data-item-id="@item.MenuItemId" onclick="toggleFavourite(this)">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</section>
+
+@section Scripts {
+<script>
+    async function toggleFavourite(btn) {
+        const id = btn.dataset.itemId;
+        const res = await fetch('/Favourites/Toggle', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `menuItemId=${id}`
+        });
+        if (res.ok) btn.closest('.col-6').remove();
+    }
+</script>
+}
